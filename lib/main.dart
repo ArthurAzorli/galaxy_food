@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:galaxy_food/feature/home_page.dart';
 import 'package:galaxy_food/galaxy_theme.dart';
 
 main(){
@@ -20,6 +21,7 @@ class AppState extends State<App>{
     return MaterialApp(
       themeMode: ThemeMode.dark,
       theme: GalaxyFoodTheme.normal,
+      home: const HomePage(),
     );
   }
 
