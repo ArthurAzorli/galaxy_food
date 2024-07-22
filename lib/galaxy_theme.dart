@@ -8,14 +8,16 @@ class GalaxyFoodTheme {
       colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: Color(0xffde204d),
-        onPrimary: Color(0xdaf62e60),
+        onPrimary: Color(0xffa8193b),
         secondary: Color(0xffffffff),
         onSecondary: Color(0xfffafafa),
         tertiary: Color(0xff1e293e),
         onTertiary: Color(0xda204173),
-        surface: Color(0xff2a2829),
-        onSurface: Color(0xff373535),
+        surface: Color(0xff202020),
+        onSurface: Color(0xff353535),
         primaryContainer: Color(0xff000000),
+        onPrimaryContainer: Color(0xca000000),
+        secondaryContainer: Color(0x67040404),
         inverseSurface: Color(0xffafafaf),
         error: Color(0xffbb0000),
         onError: Color(0xffa90000)
@@ -41,16 +43,19 @@ class GalaxyFoodTheme {
             fontFamily: 'Montserrat',
             color: Color(0xffffffff),
             fontSize: 32,
+            fontWeight: FontWeight.w600,
         ),
         headlineMedium: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xffffffff),
-            fontSize: 28
+            fontSize: 28,
+            fontWeight: FontWeight.w600,
         ),
         headlineSmall: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xffffffff),
-            fontSize: 24
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
         ),
         titleLarge: TextStyle(
             fontFamily: 'Montserrat',
@@ -92,12 +97,12 @@ class GalaxyFoodTheme {
         ),
         labelMedium: TextStyle(
           fontFamily: 'Montserrat',
-          color: Color(0xffffffff),
+          color: Color(0xffafafaf),
           fontSize: 12,
         ),
         labelSmall: TextStyle(
           fontFamily: 'Montserrat',
-          color: Color(0xffffffff),
+          color: Color(0xffcccccc),
           fontSize: 11,
         ),
       ),

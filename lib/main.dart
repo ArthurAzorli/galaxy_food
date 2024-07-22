@@ -21,7 +21,9 @@ class AppState extends State<App>{
     return MaterialApp(
       themeMode: ThemeMode.dark,
       theme: GalaxyFoodTheme.normal,
-      home: const HomePage(),
+      home: Scaffold(
+        body: HomePage(),
+      ),
     );
   }
 
