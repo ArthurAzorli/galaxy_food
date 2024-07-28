@@ -2,32 +2,32 @@ import 'package:flutter/material.dart';
 
 class GalaxyFoodTheme {
 
-  static ThemeData get normal{
+  static ThemeData get normal {
     return ThemeData(
       brightness: Brightness.dark,
       colorScheme: const ColorScheme(
-        brightness: Brightness.dark,
-        primary: Color(0xffde204d),
-        onPrimary: Color(0xffa8193b),
-        secondary: Color(0xffffffff),
-        onSecondary: Color(0xfffafafa),
-        tertiary: Color(0xff1e293e),
-        onTertiary: Color(0xda204173),
-        surface: Color(0xff202020),
-        onSurface: Color(0xff353535),
-        primaryContainer: Color(0xff000000),
-        onPrimaryContainer: Color(0xca000000),
-        secondaryContainer: Color(0x67040404),
-        inverseSurface: Color(0xffafafaf),
-        error: Color(0xffbb0000),
-        onError: Color(0xffa90000)
+          brightness: Brightness.dark,
+          primary: Color(0xfff31823),
+          onPrimary: Color(0xff9e1414),
+          secondary: Color(0xffffffff),
+          onSecondary: Color(0xfffafafa),
+          tertiary: Color(0xff1e293e),
+          onTertiary: Color(0xda204173),
+          surface: Color(0xff202020),
+          onSurface: Color(0xff353535),
+          primaryContainer: Color(0xff000000),
+          onPrimaryContainer: Color(0xca000000),
+          secondaryContainer: Color(0x67040404),
+          inverseSurface: Color(0xffafafaf),
+          error: Color(0xffbb0000),
+          onError: Color(0xffa90000)
       ),
       fontFamily: 'Montserrat',
       textTheme: const TextTheme(
         displayLarge: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Color(0xff000000),
-          fontSize: 57
+            fontFamily: 'Montserrat',
+            color: Color(0xff000000),
+            fontSize: 57
         ),
         displayMedium: TextStyle(
             fontFamily: 'Montserrat',
@@ -40,22 +40,22 @@ class GalaxyFoodTheme {
             fontSize: 36
         ),
         headlineLarge: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Color(0xffffffff),
-            fontSize: 32,
-            fontWeight: FontWeight.w600,
+          fontFamily: 'Montserrat',
+          color: Color(0xffffffff),
+          fontSize: 32,
+          fontWeight: FontWeight.w600,
         ),
         headlineMedium: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Color(0xffffffff),
-            fontSize: 28,
-            fontWeight: FontWeight.w600,
+          fontFamily: 'Montserrat',
+          color: Color(0xffffffff),
+          fontSize: 28,
+          fontWeight: FontWeight.w600,
         ),
         headlineSmall: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Color(0xffffffff),
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
+          fontFamily: 'Montserrat',
+          color: Color(0xffffffff),
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
         ),
         titleLarge: TextStyle(
             fontFamily: 'Montserrat',
@@ -70,10 +70,10 @@ class GalaxyFoodTheme {
             fontWeight: FontWeight.w600
         ),
         titleSmall: TextStyle(
-          fontFamily: 'Montserrat',
-          color: Color(0xffffffff),
-          fontSize: 14,
-          fontWeight: FontWeight.w600
+            fontFamily: 'Montserrat',
+            color: Color(0xffffffff),
+            fontSize: 14,
+            fontWeight: FontWeight.w600
         ),
         bodyLarge: TextStyle(
           fontFamily: 'Montserrat',
@@ -106,7 +106,7 @@ class GalaxyFoodTheme {
           fontSize: 11,
         ),
       ),
-      dividerColor: const Color(0xffcccccc)
+      dividerColor: const Color(0xff2f2f2f),
     );
   }
 }
