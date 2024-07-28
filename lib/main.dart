@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxy_food/feature/home_page/home_page.dart';
-import 'package:galaxy_food/feature/order_page/order_page.dart';
 import 'package:galaxy_food/galaxy_theme.dart';
 
 main(){
@@ -43,7 +42,7 @@ class AppState extends State<App>{
             ],
           ),
         ),
-        body: const OrderPage(),
+        body: const HomePage(),
       ),
     );
   }

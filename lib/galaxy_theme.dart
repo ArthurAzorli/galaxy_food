@@ -7,7 +7,7 @@ class GalaxyFoodTheme {
       brightness: Brightness.dark,
       colorScheme: const ColorScheme(
           brightness: Brightness.dark,
-          primary: Color(0xfff31823),
+          primary: Color(0xfff10404),
           onPrimary: Color(0xff9e1414),
           secondary: Color(0xffffffff),
           onSecondary: Color(0xfffafafa),
