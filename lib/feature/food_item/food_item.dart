@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/domain/food.dart';
-import '../core/widgets/galaxy_button.dart';
+import '../../core/widgets/galaxy_button.dart';
 
 enum FoodItemSize{
   big,
