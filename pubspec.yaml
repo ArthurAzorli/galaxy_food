@@ -45,6 +45,7 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   liquid_pull_to_refresh: ^3.0.1
   flutter_gradient_app_bar: ^0.3.1
+  rate: ^0.0.2
 
 dev_dependencies:
   flutter_test:

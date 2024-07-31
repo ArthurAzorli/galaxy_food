@@ -75,6 +75,7 @@ class HomePageState extends State<HomePage>{
                         ),
 
                         ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
                             child: Container(
