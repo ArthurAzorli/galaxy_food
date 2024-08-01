@@ -27,17 +27,20 @@ class GalaxyFoodTheme {
         displayLarge: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xff000000),
-            fontSize: 57
+            fontSize: 57,
+            fontWeight: FontWeight.w600,
         ),
         displayMedium: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xff000000),
-            fontSize: 45
+            fontSize: 45,
+            fontWeight: FontWeight.w600,
         ),
         displaySmall: TextStyle(
             fontFamily: 'Montserrat',
-            color: Color(0xff000000),
-            fontSize: 36
+            color: Color(0xffffffff),
+            fontSize: 36,
+            fontWeight: FontWeight.w600,
         ),
         headlineLarge: TextStyle(
           fontFamily: 'Montserrat',
