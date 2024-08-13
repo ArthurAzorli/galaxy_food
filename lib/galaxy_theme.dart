@@ -18,26 +18,31 @@ class GalaxyFoodTheme {
           primaryContainer: Color(0xff000000),
           onPrimaryContainer: Color(0xca000000),
           secondaryContainer: Color(0x67040404),
+          tertiaryContainer: Color(0xff2c2c2c),
           inverseSurface: Color(0xffafafaf),
+          inversePrimary: Colors.orangeAccent,
           error: Color(0xffbb0000),
-          onError: Color(0xffa90000)
+          onError: Color(0xffff2121)
       ),
       fontFamily: 'Montserrat',
       textTheme: const TextTheme(
         displayLarge: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xff000000),
-            fontSize: 57
+            fontSize: 57,
+          fontWeight: FontWeight.w600,
         ),
         displayMedium: TextStyle(
             fontFamily: 'Montserrat',
             color: Color(0xff000000),
-            fontSize: 45
+            fontSize: 45,
+          fontWeight: FontWeight.w600,
         ),
         displaySmall: TextStyle(
-            fontFamily: 'Montserrat',
-            color: Color(0xff000000),
-            fontSize: 36
+          fontFamily: 'Montserrat',
+          color: Color(0xffffffff),
+          fontSize: 36,
+          fontWeight: FontWeight.w600,
         ),
         headlineLarge: TextStyle(
           fontFamily: 'Montserrat',
