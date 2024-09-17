@@ -12,7 +12,7 @@ class GoRouteUtils {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) {
-        return buildHorizontalPageTransition(
+        return _buildHorizontalPageTransition(
             state: state,
             child: buildChild(context, state),
             reverse: reverse,
@@ -22,7 +22,7 @@ class GoRouteUtils {
     );
   }
 
-  static Page buildHorizontalPageTransition({
+  static Page _buildHorizontalPageTransition({
     required GoRouterState state,
     required Widget child,
     bool reverse = false,
@@ -52,13 +52,13 @@ class GoRouteUtils {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) {
-        return buildFadePageTransition(
+        return _buildFadePageTransition(
             state: state, child: buildChild(context, state));
       },
     );
   }
 
-  static Page buildFadePageTransition({required GoRouterState state, required Widget child, String? restorationId}) {
+  static Page _buildFadePageTransition({required GoRouterState state, required Widget child, String? restorationId}) {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,
@@ -76,12 +76,12 @@ class GoRouteUtils {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) {
-        return buildVerticalPageTransition(state: state, child: buildChild(context, state));
+        return _buildVerticalPageTransition(state: state, child: buildChild(context, state));
       },
     );
   }
 
-  static Page buildVerticalPageTransition({required GoRouterState state, required Widget child}) {
+  static Page _buildVerticalPageTransition({required GoRouterState state, required Widget child}) {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,

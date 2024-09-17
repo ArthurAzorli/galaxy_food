@@ -7,10 +7,14 @@ part 'food.g.dart';
 
 @JsonSerializable()
 class Food extends PackageItem{
+
+  String description;
+
   Food({
     required super.id,
     required super.name,
     required super.price,
+    required this.description,
     super.image,
     required super.parent
   });

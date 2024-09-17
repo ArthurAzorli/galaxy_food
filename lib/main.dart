@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:galaxy_food/core/utils/route/go_route.dart';
 import 'package:galaxy_food/feature/main_page/main_page.dart';
+import 'package:galaxy_food/feature/signup_page/signup_page.dart';
+//import 'package:galaxy_food/feature/signup_page/signup_page.dart';
 import 'package:galaxy_food/galaxy_theme.dart';
+import 'package:go_router/go_router.dart';
+
+import 'feature/signin_page/signin_page.dart';
 
 main(){
   runApp(const App());
 }
+
+GoRouter _router = GoRouter(
+  initialLocation: "/signin",
+  routes: [
+    GoRouteUtils.buildHorizontalRoute(
+      path: "/signin",
+      buildChild: (BuildContext context, GoRouterState state) => const SignInPage(),
+      restorationId: "SignIn-Page"
+    ),
+
+    GoRouteUtils.buildHorizontalRoute(
+        path: "/signup",
+        buildChild: (BuildContext context, GoRouterState state) => const SignUpPage(),
+        restorationId: "SignUp-Page"
+    ),
+
+    GoRouteUtils.buildHorizontalRoute(
+        path: "/",
+        buildChild: (BuildContext context, GoRouterState state) => const MainPage(),
+        restorationId: "Main-Page",
+        routes: []
+    ),
+  ],
+);
 
 class App extends StatefulWidget{
 
@@ -18,10 +48,10 @@ class AppState extends State<App>{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       themeMode: ThemeMode.dark,
       theme: GalaxyFoodTheme.normal,
-      home: const MainPage()
+      routerConfig: _router,
     );
   }
 
