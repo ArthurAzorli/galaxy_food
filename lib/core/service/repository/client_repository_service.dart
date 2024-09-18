@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:galaxy_food/core/service/repository/repository_service.dart';
+import 'package:galaxy_food/core/utils/bytes.dart';
 import 'package:http/http.dart' as http;
 
 import '../../domain/address.dart';
@@ -8,7 +10,7 @@ import '../../utils/exception/repository_exception.dart';
 
 class ClientRepositoryService {
 
-  static const String kApiRequest = "https://arthurazorli.github.io/GalaxyFoodServer/client";
+  static const String kApiRequest = "http://${RepositoryService.kIpAddressServer}:${RepositoryService.kPortServer}/client";
 
   static Future<Client> create(Client client) async {
     final endpointUri = Uri.parse("$kApiRequest/create");
@@ -21,10 +23,12 @@ class ClientRepositoryService {
         body: jsonEncode(client.toJson())
     );
 
+    print("${response.statusCode} - ${response.bodyBytes.toUTF8}");
+
     if (response.statusCode == 201){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -39,9 +43,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 302){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -57,9 +61,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 202){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -80,9 +84,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 202){
-      return jsonDecode(response.body)["result"];
+      return jsonDecode(response.bodyBytes.toUTF8)["result"];
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -98,9 +102,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 201){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -116,9 +120,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 201){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -133,9 +137,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 200){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -150,9 +154,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 200){
-      return Client.fromJson(jsonDecode(response.body));
+      return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -167,9 +171,9 @@ class ClientRepositoryService {
     );
 
     if (response.statusCode == 200){
-      return jsonDecode(response.body)["result"];
+      return jsonDecode(response.bodyBytes.toUTF8)["result"];
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 }

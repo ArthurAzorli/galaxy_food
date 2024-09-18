@@ -8,7 +8,7 @@ part of 'repository_exception.dart';
 
 RepositoryException _$RepositoryExceptionFromJson(Map<String, dynamic> json) =>
     RepositoryException(
-      code: (json['code'] as num).toInt(),
+      status: (json['status'] as num).toInt(),
       message: json['message'] as String,
       timestamp: DateTime.parse(json['timestamp'] as String),
     );
@@ -17,6 +17,6 @@ Map<String, dynamic> _$RepositoryExceptionToJson(
         RepositoryException instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'code': instance.code,
+      'status': instance.status,
       'timestamp': instance.timestamp.toIso8601String(),
     };

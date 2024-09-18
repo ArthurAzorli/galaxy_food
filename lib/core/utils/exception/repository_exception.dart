@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'repository_exception.g.dart';
@@ -5,11 +7,11 @@ part 'repository_exception.g.dart';
 @JsonSerializable()
 class RepositoryException implements Exception{
   final String message;
-  final int code;
+  final int status;
   final DateTime timestamp;
 
   RepositoryException({
-    required this.code,
+    required this.status,
     required this.message,
     required this.timestamp
   });
