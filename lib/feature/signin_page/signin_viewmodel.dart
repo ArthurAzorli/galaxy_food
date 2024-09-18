@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:galaxy_food/core/service/session_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../core/utils/exception/repository_exception.dart';
+import '../../core/widgets/galaxy_button.dart';
 
 part 'signin_viewmodel.g.dart';
 
@@ -44,10 +48,43 @@ abstract class SignInViewModelBase with Store{
   }
 
   @action
-  void submit(BuildContext context){
+  Future<void> submit(BuildContext context) async{
     if (formKey.currentState!.validate()) {
-      //TODO login no springboot
-      context.go("/");
+
+      final email = emailEditingController.text;
+      final password = passwordEditingController.text;
+
+      try{
+        await SessionService.login(user: email, password: password);
+        context.go("/");
+
+      } on RepositoryException catch(e) {
+
+        showDialog(
+            context: context,
+            builder: (context){
+              final theme = Theme.of(context);
+              return AlertDialog(
+
+                icon: Icon(Icons.warning_amber_rounded, color: theme.colorScheme.secondary, size: 65),
+                title: Text("Erro ao Fazer Log in!", style: theme.textTheme.titleLarge),
+                content: Text(e.message, style: theme.textTheme.bodyLarge, textAlign: TextAlign.center,),
+                actions: [
+                  Center(
+                    child: GalaxyButton(
+                        style: const ButtonStyle(
+                            fixedSize: WidgetStatePropertyAll(Size(200, 50))
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text("FECHAR")
+                    ),
+                  )
+                ],
+              );
+            }
+        );
+
+      }
     }
   }
 

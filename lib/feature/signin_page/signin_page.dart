@@ -146,7 +146,7 @@ class SignInPageState extends State<SignInPage>{
                         style: const ButtonStyle(
                           fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 60)),
                         ),
-                        onPressed: () => viewModel.submit(context),
+                        onPressed: () async => await viewModel.submit(context),
                         child: const Text("ENTRE"),
                       ),
                     ),

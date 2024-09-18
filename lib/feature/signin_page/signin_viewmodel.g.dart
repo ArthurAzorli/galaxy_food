@@ -91,6 +91,14 @@ mixin _$SignInViewModel on SignInViewModelBase, Store {
     });
   }
 
+  late final _$submitAsyncAction =
+      AsyncAction('SignInViewModelBase.submit', context: context);
+
+  @override
+  Future<void> submit(BuildContext context) {
+    return _$submitAsyncAction.run(() => super.submit(context));
+  }
+
   late final _$SignInViewModelBaseActionController =
       ActionController(name: 'SignInViewModelBase', context: context);
 
@@ -122,17 +130,6 @@ mixin _$SignInViewModel on SignInViewModelBase, Store {
         name: 'SignInViewModelBase.passwordValidator');
     try {
       return super.passwordValidator(password);
-    } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void submit(BuildContext context) {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.submit');
-    try {
-      return super.submit(context);
     } finally {
       _$SignInViewModelBaseActionController.endAction(_$actionInfo);
     }
