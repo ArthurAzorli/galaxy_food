@@ -7,7 +7,7 @@ part 'client.g.dart';
 
 @JsonSerializable()
 class Client{
-  late final String id;
+  late final String? id;
   late final String cpf;
   late String name;
   late String email;
@@ -20,7 +20,7 @@ class Client{
   String? _password;
 
   Client({
-    required this.id,
+    this.id,
     required this.cpf,
     required this.name,
     required this.email,

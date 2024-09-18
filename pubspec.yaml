@@ -52,6 +52,8 @@ dependencies:
 
   rate: ^0.0.2
 
+  get_it: ^7.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

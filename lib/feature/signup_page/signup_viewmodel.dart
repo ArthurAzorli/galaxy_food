@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:galaxy_food/core/domain/client.dart';
+import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
+import 'package:galaxy_food/core/utils/exception/repository_exception.dart';
+import 'package:galaxy_food/core/widgets/galaxy_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -86,7 +90,7 @@ abstract class SignUpViewModelBase with Store{
   }
 
   @action
-  void submit(BuildContext context){
+  Future<void> submit(BuildContext context) async{
     if (formKey.currentState!.validate()) {
 
       final cpf = UtilBrasilFields.obterCpf(cpfEditingController.text);
@@ -95,9 +99,39 @@ abstract class SignUpViewModelBase with Store{
       final date = UtilData.obterDateTime(birthDateEditingController.text);
       final password = passwordEditingController.text;
 
-      //TODO: cadastro no springboot
-      print("$cpf $name $email $date $password");
-      context.go("/");
+      final clientRequest = Client(cpf: cpf, name: name, email: email, birthDate: date) ..password = password;
+
+      try{
+        await ClientRepositoryService.create(clientRequest);
+        context.go("/");
+
+      } on RepositoryException catch(e) {
+
+        showDialog(
+          context: context,
+          builder: (context){
+            final theme = Theme.of(context);
+            return AlertDialog(
+
+              icon: Icon(Icons.warning_amber_rounded, color: theme.colorScheme.secondary, size: 65),
+              title: Text("Erro ao Fazer Cadastro!", style: theme.textTheme.titleLarge),
+              content: Text(e.message, style: theme.textTheme.bodyLarge, textAlign: TextAlign.center,),
+              actions: [
+                Center(
+                  child: GalaxyButton(
+                    style: const ButtonStyle(
+                      fixedSize: WidgetStatePropertyAll(Size(200, 50))
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("FECHAR")
+                  ),
+                )
+              ],
+            );
+          }
+        );
+
+      }
     }
   }
 

@@ -217,7 +217,7 @@ class SignUpPageState extends State<SignUpPage>{
                         style: const ButtonStyle(
                           fixedSize: WidgetStatePropertyAll(Size(double.maxFinite, 60)),
                         ),
-                        onPressed: () => viewModel.submit(context),
+                        onPressed: () async => await viewModel.submit(context),
                         child: const Text("SALVAR"),
                       ),
                     ),

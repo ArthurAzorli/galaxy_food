@@ -10,7 +10,7 @@ part of 'signup_viewmodel.dart';
 
 mixin _$SignUpViewModel on SignUpViewModelBase, Store {
   late final _$seePasswordAtom =
-      Atom(name: 'SignInViewModelBase.seePassword', context: context);
+      Atom(name: 'SignUpViewModelBase.seePassword', context: context);
 
   @override
   bool get seePassword {
@@ -25,8 +25,74 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
     });
   }
 
+  late final _$cpfFocusAtom =
+      Atom(name: 'SignUpViewModelBase.cpfFocus', context: context);
+
+  @override
+  FocusNode get cpfFocus {
+    _$cpfFocusAtom.reportRead();
+    return super.cpfFocus;
+  }
+
+  @override
+  set cpfFocus(FocusNode value) {
+    _$cpfFocusAtom.reportWrite(value, super.cpfFocus, () {
+      super.cpfFocus = value;
+    });
+  }
+
+  late final _$cpfEditingControllerAtom =
+      Atom(name: 'SignUpViewModelBase.cpfEditingController', context: context);
+
+  @override
+  TextEditingController get cpfEditingController {
+    _$cpfEditingControllerAtom.reportRead();
+    return super.cpfEditingController;
+  }
+
+  @override
+  set cpfEditingController(TextEditingController value) {
+    _$cpfEditingControllerAtom.reportWrite(value, super.cpfEditingController,
+        () {
+      super.cpfEditingController = value;
+    });
+  }
+
+  late final _$nameFocusAtom =
+      Atom(name: 'SignUpViewModelBase.nameFocus', context: context);
+
+  @override
+  FocusNode get nameFocus {
+    _$nameFocusAtom.reportRead();
+    return super.nameFocus;
+  }
+
+  @override
+  set nameFocus(FocusNode value) {
+    _$nameFocusAtom.reportWrite(value, super.nameFocus, () {
+      super.nameFocus = value;
+    });
+  }
+
+  late final _$nameEditingControllerAtom =
+      Atom(name: 'SignUpViewModelBase.nameEditingController', context: context);
+
+  @override
+  TextEditingController get nameEditingController {
+    _$nameEditingControllerAtom.reportRead();
+    return super.nameEditingController;
+  }
+
+  @override
+  set nameEditingController(TextEditingController value) {
+    _$nameEditingControllerAtom.reportWrite(value, super.nameEditingController,
+        () {
+      super.nameEditingController = value;
+    });
+  }
+
   late final _$emailFocusAtom =
-      Atom(name: 'SignInViewModelBase.emailFocus', context: context);
+      Atom(name: 'SignUpViewModelBase.emailFocus', context: context);
 
   @override
   FocusNode get emailFocus {
@@ -42,7 +108,7 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
   }
 
   late final _$emailEditingControllerAtom = Atom(
-      name: 'SignInViewModelBase.emailEditingController', context: context);
+      name: 'SignUpViewModelBase.emailEditingController', context: context);
 
   @override
   TextEditingController get emailEditingController {
@@ -58,8 +124,41 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
     });
   }
 
+  late final _$birthDateFocusAtom =
+      Atom(name: 'SignUpViewModelBase.birthDateFocus', context: context);
+
+  @override
+  FocusNode get birthDateFocus {
+    _$birthDateFocusAtom.reportRead();
+    return super.birthDateFocus;
+  }
+
+  @override
+  set birthDateFocus(FocusNode value) {
+    _$birthDateFocusAtom.reportWrite(value, super.birthDateFocus, () {
+      super.birthDateFocus = value;
+    });
+  }
+
+  late final _$birthDateEditingControllerAtom = Atom(
+      name: 'SignUpViewModelBase.birthDateEditingController', context: context);
+
+  @override
+  TextEditingController get birthDateEditingController {
+    _$birthDateEditingControllerAtom.reportRead();
+    return super.birthDateEditingController;
+  }
+
+  @override
+  set birthDateEditingController(TextEditingController value) {
+    _$birthDateEditingControllerAtom
+        .reportWrite(value, super.birthDateEditingController, () {
+      super.birthDateEditingController = value;
+    });
+  }
+
   late final _$passwordFocusAtom =
-      Atom(name: 'SignInViewModelBase.passwordFocus', context: context);
+      Atom(name: 'SignUpViewModelBase.passwordFocus', context: context);
 
   @override
   FocusNode get passwordFocus {
@@ -75,7 +174,7 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
   }
 
   late final _$passwordEditingControllerAtom = Atom(
-      name: 'SignInViewModelBase.passwordEditingController', context: context);
+      name: 'SignUpViewModelBase.passwordEditingController', context: context);
 
   @override
   TextEditingController get passwordEditingController {
@@ -91,61 +190,91 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
     });
   }
 
-  late final _$SignInViewModelBaseActionController =
-      ActionController(name: 'SignInViewModelBase', context: context);
+  late final _$submitAsyncAction =
+      AsyncAction('SignUpViewModelBase.submit', context: context);
+
+  @override
+  Future<void> submit(BuildContext context) {
+    return _$submitAsyncAction.run(() => super.submit(context));
+  }
+
+  late final _$SignUpViewModelBaseActionController =
+      ActionController(name: 'SignUpViewModelBase', context: context);
 
   @override
   void changeVisibilityPassword() {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.changeVisibilityPassword');
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.changeVisibilityPassword');
     try {
       return super.changeVisibilityPassword();
     } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? cpfValidator(String? cpf) {
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.cpfValidator');
+    try {
+      return super.cpfValidator(cpf);
+    } finally {
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? nameValidator(String? name) {
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.nameValidator');
+    try {
+      return super.nameValidator(name);
+    } finally {
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   String? emailValidator(String? email) {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.emailValidator');
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.emailValidator');
     try {
       return super.emailValidator(email);
     } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? birthDateValidator(String? date) {
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.birthDateValidator');
+    try {
+      return super.birthDateValidator(date);
+    } finally {
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   String? passwordValidator(String? password) {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.passwordValidator');
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.passwordValidator');
     try {
       return super.passwordValidator(password);
     } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void submit(BuildContext context) {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.submit');
-    try {
-      return super.submit(context);
-    } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void signin(BuildContext context) {
-    final _$actionInfo = _$SignInViewModelBaseActionController.startAction(
-        name: 'SignInViewModelBase.signup');
+    final _$actionInfo = _$SignUpViewModelBaseActionController.startAction(
+        name: 'SignUpViewModelBase.signin');
     try {
       return super.signin(context);
     } finally {
-      _$SignInViewModelBaseActionController.endAction(_$actionInfo);
+      _$SignUpViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
@@ -153,8 +282,14 @@ mixin _$SignUpViewModel on SignUpViewModelBase, Store {
   String toString() {
     return '''
 seePassword: ${seePassword},
+cpfFocus: ${cpfFocus},
+cpfEditingController: ${cpfEditingController},
+nameFocus: ${nameFocus},
+nameEditingController: ${nameEditingController},
 emailFocus: ${emailFocus},
 emailEditingController: ${emailEditingController},
+birthDateFocus: ${birthDateFocus},
+birthDateEditingController: ${birthDateEditingController},
 passwordFocus: ${passwordFocus},
 passwordEditingController: ${passwordEditingController}
     ''';

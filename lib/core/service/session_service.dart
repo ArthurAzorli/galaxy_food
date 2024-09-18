@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
+import 'package:galaxy_food/core/service/repository/repository_service.dart';
+import 'package:galaxy_food/core/utils/bytes.dart';
 import 'package:http/http.dart' as http;
 
 import '../domain/client.dart';
@@ -8,7 +10,7 @@ import '../utils/exception/repository_exception.dart';
 
 class SessionService{
 
-  static const String kApiRequest = "https://arthurazorli.github.io/GalaxyFoodServer";
+  static const String kApiRequest = "http://${RepositoryService.kIpAddressServer}:${RepositoryService.kPortServer}";
 
   static Future<bool> login({required String user, required String password}) async {
     final endpointUri = Uri.parse("$kApiRequest/client/login");
@@ -27,9 +29,9 @@ class SessionService{
     );
 
     if (response.statusCode == 200){
-      return jsonDecode(response.body)["result"];
+      return jsonDecode(response.bodyBytes.toUTF8)["result"];
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -44,9 +46,9 @@ class SessionService{
     );
 
     if (response.statusCode == 200){
-      return jsonDecode(response.body)["result"];
+      return jsonDecode(response.bodyBytes.toUTF8)["result"];
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 
@@ -61,16 +63,16 @@ class SessionService{
     );
 
     if (response.statusCode == 200){
-      if (jsonDecode(response.body)["type"] == "client") {
-        return await ClientRepositoryService.get(jsonDecode(response.body)["user"]);
+      if (jsonDecode(response.bodyBytes.toUTF8)["type"] == "client") {
+        return await ClientRepositoryService.get(jsonDecode(response.bodyBytes.toUTF8)["user"]);
       }
       throw RepositoryException(
-          code: 401,
+          status: 401,
           message: "Você não está logado em uma conta de Cliente",
           timestamp: DateTime.now()
       );
     } else {
-      throw RepositoryException.fromJson(jsonDecode(response.body));
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
 }
