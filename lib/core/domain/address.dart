@@ -21,10 +21,9 @@ class Address{
     required this.neighborhood,
     required this.city,
     required this.state,
-    required String cep
+    required this.cep
   })
-      : assert(Estados.listaEstadosSigla.contains(state)),
-      cep = UtilBrasilFields.obterCep(cep, ponto: false);
+      : assert(Estados.listaEstadosSigla.contains(state));
 
   factory Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
 
@@ -39,4 +38,8 @@ class Address{
   @override
   int get hashCode => id.hashCode;
 
+  @override
+  String toString() {
+    return "$street $number, $neighborhood, $city - $state $cep";
+  }
 }
