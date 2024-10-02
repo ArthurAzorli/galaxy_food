@@ -19,8 +19,8 @@ class Package{
     required this.id,
     required this.name,
     this.image,
-    required Package parent,
-    required Restaurant restaurant,
+    required this.parent,
+    required this.restaurant,
     this.children = const [],
     this.items = const []
   });

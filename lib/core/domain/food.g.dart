@@ -15,7 +15,7 @@ Food _$FoodFromJson(Map<String, dynamic> json) => Food(
               ?.map((e) => (e as num).toInt())
               .toList() ??
           const [],
-      parent: Package.fromJson(json['parent'] as Map<String, dynamic>),
+      parent: json['parent'] as String,
     );
 
 Map<String, dynamic> _$FoodToJson(Food instance) => <String, dynamic>{

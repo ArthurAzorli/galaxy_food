@@ -11,7 +11,7 @@ class Restaurant{
   late final String cnpj;
   late final String email;
   late String name;
-  late String speciality;
+  late String? speciality;
   late List<int>? image;
   late Address address;
   late double score;

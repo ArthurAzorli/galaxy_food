@@ -63,3 +63,15 @@ class ComboItem {
   int get hashCode => id.hashCode;
 
 }
+
+extension ComboItems on  List<ComboItem>{
+  String get ListToString{
+    final buffer = StringBuffer();
+
+    for (final item in this){
+      buffer.write("${item.quantity}x ${item.item.name}\n");
+    }
+
+    return buffer.toString();
+  }
+}

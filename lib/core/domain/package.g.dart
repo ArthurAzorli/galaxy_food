@@ -12,9 +12,8 @@ Package _$PackageFromJson(Map<String, dynamic> json) => Package(
       image: (json['image'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
-      parent: Package.fromJson(json['parent'] as Map<String, dynamic>),
-      restaurant:
-          Restaurant.fromJson(json['restaurant'] as Map<String, dynamic>),
+      parent: json['parent'] as String?,
+      restaurant: json['restaurant'] as String,
       children: (json['children'] as List<dynamic>?)
               ?.map((e) => Package.fromJson(e as Map<String, dynamic>))
               .toList() ??

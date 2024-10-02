@@ -19,8 +19,8 @@ abstract class PackageItem{
     required this.name,
     required this.price,
     this.image = const [],
-    required Package parent
-  }): parent = parent.id;
+    required String parent
+  });
 
   static PackageItem fromJson(Map<String, dynamic> json){
     if (json["items"] != null){

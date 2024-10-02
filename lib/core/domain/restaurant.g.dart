@@ -11,7 +11,7 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
       cnpj: json['cnpj'] as String,
       email: json['email'] as String,
       name: json['name'] as String,
-      speciality: json['speciality'] as String,
+      speciality: json['speciality'] as String?,
       image: (json['image'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),

@@ -10,7 +10,7 @@ Combo _$ComboFromJson(Map<String, dynamic> json) => Combo(
       id: json['id'] as String,
       name: json['name'] as String,
       price: (json['price'] as num).toDouble(),
-      parent: Package.fromJson(json['parent'] as Map<String, dynamic>),
+      parent: json['parent'] as String,
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => ComboItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
