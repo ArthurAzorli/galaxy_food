@@ -100,6 +100,10 @@ class HomePageState extends State<HomePage>{
 
                         Observer(
                           builder: (context) {
+                            if (viewModel.addressSelect == null){
+                              return Container();
+                            }
+
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: BackdropFilter(
@@ -117,7 +121,7 @@ class HomePageState extends State<HomePage>{
                                       child: Row(
                                         children: [
                                           const Icon(Icons.location_pin),
-                                          Text((viewModel.addressSelect?? "LOCAL").toString())
+                                          Text((viewModel.addressSelect).toString())
                                         ],
                                       ),
                                     ),
