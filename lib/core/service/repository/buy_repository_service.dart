@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
 import 'package:galaxy_food/core/service/repository/repository_service.dart';
 import 'package:galaxy_food/core/utils/bytes.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,8 @@ class BuyRepositoryService {
   static const String kApiRequest = "http://${RepositoryService.kIpAddressServer}:${RepositoryService.kPortServer}/buy";
 
   static Future<Buy> create(Buy buy) async {
-    final endpointUri = Uri.parse("$kApiRequest/create");
+    final idClient = await ClientRepositoryService.getUserID();
+    final endpointUri = Uri.parse("$kApiRequest/create/$idClient");
 
     final response = await http.post(
       endpointUri,
@@ -28,7 +30,8 @@ class BuyRepositoryService {
   }
 
   static Future<List<Buy>> getAll() async {
-    final endpointUri = Uri.parse("$kApiRequest/get");
+    final idClient = await ClientRepositoryService.getUserID();
+    final endpointUri = Uri.parse("$kApiRequest/get/$idClient?typeUser=client");
 
     final response = await http.get(
         endpointUri,
@@ -50,13 +53,32 @@ class BuyRepositoryService {
   }
 
   static Future<Buy> get(String id) async {
-    final endpointUri = Uri.parse("$kApiRequest/get/$id");
+    final idClient = await ClientRepositoryService.getUserID();
+    final endpointUri = Uri.parse("$kApiRequest/get/$idClient/$id?typeUser=client");
 
     final response = await http.get(
         endpointUri,
         headers: {
           'Content-Type':'application/json; charset=UTF-8'
         },
+    );
+
+    if (response.statusCode == 302){
+      return Buy.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    } else {
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    }
+  }
+
+  static Future<Buy> cancel(String id) async {
+    final idClient = await ClientRepositoryService.getUserID();
+    final endpointUri = Uri.parse("$kApiRequest/cancel/$idClient/$id");
+
+    final response = await http.put(
+      endpointUri,
+      headers: {
+        'Content-Type':'application/json; charset=UTF-8'
+      },
     );
 
     if (response.statusCode == 302){

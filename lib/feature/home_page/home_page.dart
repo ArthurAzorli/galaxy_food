@@ -1,7 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galaxy_food/core/domain/package_item.dart';
+import 'package:galaxy_food/core/utils/bytes.dart';
 import 'package:galaxy_food/feature/food_item/food_item.dart';
+import 'package:galaxy_food/feature/home_page/home_viewmodel.dart';
+
+import '../../core/domain/food.dart';
 
 class HomePage extends StatefulWidget{
 
@@ -12,6 +18,14 @@ class HomePage extends StatefulWidget{
 }
 
 class HomePageState extends State<HomePage>{
+
+  late final HomeViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = HomeViewModel(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class HomePageState extends State<HomePage>{
                 ]
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
                 child: Column(
                   children: [
 
@@ -54,55 +68,84 @@ class HomePageState extends State<HomePage>{
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.onSurface,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: Image.network("https://clinicasrecuperacao.com/wp-content/uploads/2023/08/Quanto-Tempo-um-Usuario-de-Crack-Vive.jpg").image,
-                              fit: BoxFit.cover
-                            ),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black,
-                                blurStyle: BlurStyle.outer,
-                                blurRadius: 15
-                              )
-                            ]
-                          ),
-                        ),
+                       Observer(
+                         builder: (context){
 
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.secondaryContainer,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 16),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.location_pin),
-                                    Text("LOCAL")
-                                  ],
+                           ImageProvider image =
+                           viewModel.client != null && viewModel.client!.image != null
+                               ? Image.memory(viewModel.client!.image!.toUint8List).image
+                               : Image.asset("lib/images/user_default.png").image;
+
+                           return Container(
+                             height: 50,
+                             width: 50,
+                             decoration: BoxDecoration(
+                                 color: theme.colorScheme.onSurface,
+                                 shape: BoxShape.circle,
+                                 image: DecorationImage(
+                                     image: image,
+                                     fit: BoxFit.cover
+                                 ),
+                                 boxShadow: const [
+                                   BoxShadow(
+                                       color: Colors.black,
+                                       blurStyle: BlurStyle.outer,
+                                       blurRadius: 15
+                                   )
+                                 ]
+                             ),
+                           );
+                         }
+                       ),
+
+                        Observer(
+                          builder: (context) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                                child: Container(
+                                  constraints: const BoxConstraints(maxWidth: 230),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.secondaryContainer,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 16),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.location_pin),
+                                          Text((viewModel.addressSelect?? "LOCAL").toString())
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          }
                         )
                       ],
                     ),
 
                     Padding(
                       padding: const EdgeInsets.only(top: 100),
-                      child: SizedBox(
-                        width: double.maxFinite,
-                        child: Text("Olá, USERNAME", style: theme.textTheme.headlineSmall,  textAlign: TextAlign.start,)
+                      child: Observer(
+                        builder: (context) {
+
+                          String name = viewModel.client != null
+                              ? viewModel.client!.name
+                              : "Usuário";
+
+                          print(viewModel.client);
+
+                          return SizedBox(
+                            width: double.maxFinite,
+                            child: Text("Olá, $name", style: theme.textTheme.headlineSmall,  textAlign: TextAlign.start,)
+                          );
+                        }
                       ),
                     ),
 
@@ -116,66 +159,71 @@ class HomePageState extends State<HomePage>{
 
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.secondaryContainer,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: SizedBox(
-                                height: 55,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                      child: InkWell(
+                        onTap: viewModel.search,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.secondaryContainer,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 5),
+                                child: SizedBox(
+                                  height: 55,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
 
-                                      const SizedBox(
-                                        width: 50,
-                                        child: Center(
-                                          child: Icon(Icons.search_rounded, size: 30),
-                                        ),
-                                      ),
-
-                                      Expanded(
-                                        child: TextFormField(
-                                          style: theme.textTheme.titleMedium,
-                                          decoration: InputDecoration(
-                                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                                            labelStyle: theme.textTheme.titleMedium,
-                                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(
-                                              color: theme.colorScheme.primary,
-                                              width: 1.5
-                                            )),
-                                            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
-                                            labelText: "Search...",
-                                            enabled: true,
+                                        const SizedBox(
+                                          width: 50,
+                                          child: Center(
+                                            child: Icon(Icons.search_rounded, size: 30),
                                           ),
                                         ),
-                                      ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: VerticalDivider(color: theme.colorScheme.secondary,),
-                                      ),
-
-                                      const SizedBox(
-                                        width: 50,
-                                        child: Center(
-                                          child: Icon(Icons.filter_list_rounded, size: 30),
+                                        Expanded(
+                                          child: IgnorePointer(
+                                            child: TextFormField(
+                                              style: theme.textTheme.titleMedium,
+                                              decoration: InputDecoration(
+                                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                                labelStyle: theme.textTheme.titleMedium,
+                                                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(
+                                                  color: theme.colorScheme.primary,
+                                                  width: 1.5
+                                                )),
+                                                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                                                labelText: "Search...",
+                                                enabled: true,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
 
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: VerticalDivider(color: theme.colorScheme.secondary,),
+                                        ),
+
+                                        const SizedBox(
+                                          width: 50,
+                                          child: Center(
+                                            child: Icon(Icons.filter_list_rounded, size: 30),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
+                              ),
                             ),
                           ),
                         ),
@@ -258,59 +306,6 @@ class HomePageState extends State<HomePage>{
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 2.5),
-                    child: Divider(color: theme.dividerColor,),
-                  ),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: double.maxFinite,
-                    child: Text("CATEGORIAS", style: theme.textTheme.titleSmall,)
-                  ),
-
-                  SizedBox(
-                    height: 160,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: 5,
-                      padding:  const EdgeInsets.symmetric(horizontal: 20),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index){
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10, top: 20),
-                              child: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.onSurface,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x5a000000),
-                                      blurStyle: BlurStyle.outer,
-                                      blurRadius: 10
-                                    ),
-                                  ]
-                                ),
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10, top: 7.5),
-                              child: SizedBox(
-                                width: 100,
-                                child: Text("Comida Japonesa", style: theme.textTheme.labelMedium, maxLines: 2, textAlign: TextAlign.center)
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-
-                  Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10, bottom: 2.5),
                     child: Divider(color: theme.dividerColor,),
                   ),
@@ -322,65 +317,102 @@ class HomePageState extends State<HomePage>{
                     child: Text("EXPLORAR RESTAURANTES", style: theme.textTheme.titleSmall,)
                   ),
 
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    decoration:  BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.5),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color(0xaa000000),
-                            blurStyle: BlurStyle.outer,
-                            blurRadius: 16
-                        ),
-                      ]
-                    ),
-                    child: Container(
-                      height: 305,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.5),
-                        color: theme.colorScheme.primaryContainer,
-                        image: DecorationImage(
-                          image: Image.network("https://nabarradatijuca.com.br/wp-content/uploads/2023/07/Hamburgueria_Barra_da_Tijuca.jpg").image,
-                          fit: BoxFit.cover,
-                          opacity: 0.5
-                        )
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7.5),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
-                          child: Column(
-                            children: [
+                 Observer(
+                   builder: (context) {
 
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                child: SizedBox(
-                                  width: double.maxFinite,
-                                  child: Text("RESTAURANT NAME", style: theme.textTheme.headlineSmall, textAlign: TextAlign.left,)
-                                ),
-                              ),
+                     return SizedBox(
+                       height: viewModel.restaurants.length*300+80,
+                       child: Column(
+                         children: List.generate(
+                             viewModel.restaurants.length,
+                                 (index){
+                               final restaurant = viewModel.restaurants[index];
+                               final foods = viewModel.getFoodItemOf(context, restaurant);
 
-                              SizedBox(
-                                height: 250,
-                                width: double.infinity,
-                                child: ListView.builder(
-                                  itemCount: 5,
-                                  scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  itemBuilder: (context, index){
-                                    return const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10),
-                                      child: FoodItem(size: FoodItemSize.medium)
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ),
+                               return Container(
+                                 margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                                 decoration:  BoxDecoration(
+                                     borderRadius: BorderRadius.circular(7.5),
+                                     boxShadow: const [
+                                       BoxShadow(
+                                           color: Color(0xaa000000),
+                                           blurStyle: BlurStyle.outer,
+                                           blurRadius: 16
+                                       ),
+                                     ]
+                                 ),
+                                 child: Container(
+                                     height: 305,
+                                     width: double.maxFinite,
+                                     decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(7.5),
+                                         color: theme.colorScheme.primaryContainer,
+                                         image: DecorationImage(
+                                             image: Image.network("https://nabarradatijuca.com.br/wp-content/uploads/2023/07/Hamburgueria_Barra_da_Tijuca.jpg").image,
+                                             fit: BoxFit.cover,
+                                             opacity: 0.5
+                                         )
+                                     ),
+                                     child: ClipRRect(
+                                       borderRadius: BorderRadius.circular(7.5),
+                                       child: BackdropFilter(
+                                         filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
+                                         child: Column(
+                                           children: [
+
+                                             Padding(
+                                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                               child: SizedBox(
+                                                   width: double.maxFinite,
+                                                   child: Text(restaurant.name, style: theme.textTheme.headlineSmall, textAlign: TextAlign.left,)
+                                               ),
+                                             ),
+
+                                             SizedBox(
+                                               height: 250,
+                                               width: double.infinity,
+                                               child: FutureBuilder(
+                                                   future: foods,
+                                                   builder: (context, snapshot) {
+
+                                                     if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) return Container();
+
+                                                     return ListView.builder(
+                                                       itemCount: snapshot.data!.length,
+                                                       scrollDirection: Axis.horizontal,
+                                                       padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                       itemBuilder: (context, index){
+                                                         return Padding(
+                                                             padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                             child: FoodItem(
+                                                                 size: FoodItemSize.medium,
+                                                                 packageItem: snapshot.data![index],
+                                                                 onTap: (){
+                                                                   viewModel.seeRestaurant(context, restaurant);
+                                                                 }
+                                                             )
+                                                         );
+                                                       },
+                                                     );
+                                                   }
+                                               ),
+                                             )
+                                           ],
+                                         ),
+                                       ),
+                                     )
+                                 ),
+                               );
+                             }
+                         ),
+                       )
+                     );
+                   }
+                 ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10, bottom: 2.5),
+                    child: Divider(color: theme.dividerColor,),
                   ),
                 ],
               ),

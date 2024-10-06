@@ -13,6 +13,9 @@ abstract class MainViewModelBase with Store{
   );
 
   @observable
+  int addressSelect = 0;
+
+  @observable
   int value = 0;
 
   @action

@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
-import 'package:galaxy_food/core/service/session_service.dart';
 import 'package:galaxy_food/core/utils/route/go_route.dart';
 import 'package:galaxy_food/feature/main_page/main_page.dart';
+import 'package:galaxy_food/feature/restaurant_page/restaurant_page.dart';
 import 'package:galaxy_food/feature/signup_page/signup_page.dart';
 import 'package:galaxy_food/feature/signin_page/signin_page.dart';
 import 'package:galaxy_food/galaxy_theme.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 setup(){
   final getIt = GetIt.I;
-  getIt.registerSingleton<SessionService>(SessionService());
+
+  getIt.registerSingletonAsync<SharedPreferencesWithCache>(
+      () => SharedPreferencesWithCache.create(
+          cacheOptions: const SharedPreferencesWithCacheOptions(
+              allowList: {"idUser"}
+          )
+      )
+  );
 }
 
 main(){
+  setup();
   runApp(const App());
 }
 
@@ -37,7 +45,15 @@ GoRouter _router = GoRouter(
         path: "/",
         buildChild: (BuildContext context, GoRouterState state) => const MainPage(),
         restorationId: "Main-Page",
-        routes: []
+        routes: [
+
+          GoRouteUtils.buildHorizontalRoute(
+            path: "restaurant",
+            buildChild: (BuildContext context, GoRouterState state) => const RestaurantPage(),
+            restorationId: "Restaurant-Page"
+          )
+
+        ]
     ),
   ],
 );

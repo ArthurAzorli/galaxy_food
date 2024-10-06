@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'repository_exception.g.dart';
@@ -13,8 +11,8 @@ class RepositoryException implements Exception{
   RepositoryException({
     required this.status,
     required this.message,
-    required this.timestamp
-  });
+    DateTime? timestamp
+  }) : timestamp = timestamp ?? DateTime.now();
 
   factory RepositoryException.fromJson(Map<String, dynamic> json) => _$RepositoryExceptionFromJson(json);
 

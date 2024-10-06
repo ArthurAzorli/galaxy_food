@@ -6,6 +6,7 @@ import 'package:galaxy_food/feature/order_page/order_page.dart';
 import 'package:galaxy_food/feature/search_page/search_page.dart';
 import 'package:galaxy_food/feature/user_page/user_page.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 class MainPage extends StatefulWidget{
   const MainPage({super.key});
@@ -17,7 +18,13 @@ class MainPage extends StatefulWidget{
 
 class MainPageState extends State<MainPage>{
 
-  final viewModel = MainViewModel();
+  late final viewModel= MainViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    GetIt.I.registerSingleton<MainViewModel>(viewModel);
+  }
 
   @override
   Widget build(BuildContext context) {

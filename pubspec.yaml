@@ -53,6 +53,7 @@ dependencies:
   rate: ^0.0.2
 
   get_it: ^7.7.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +85,7 @@ flutter:
 
   assets:
     - lib/images/galaxyfood_logo.png
-
+    - lib/images/user_default.png
 
   fonts:
     - family: Montserrat

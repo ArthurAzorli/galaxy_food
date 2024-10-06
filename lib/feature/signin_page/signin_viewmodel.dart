@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:galaxy_food/core/service/session_service.dart';
+import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 
@@ -21,13 +21,13 @@ abstract class SignInViewModelBase with Store{
   var emailFocus = FocusNode();
 
   @observable
-  var emailEditingController = TextEditingController();
+  var emailEditingController = TextEditingController()..text="arthur.azorli@aluno.ifsp.edu.br";
 
   @observable
   var passwordFocus = FocusNode();
 
   @observable
-  var passwordEditingController = TextEditingController();
+  var passwordEditingController = TextEditingController()..text="12345678";
 
   @action
   void changeVisibilityPassword(){
@@ -49,13 +49,14 @@ abstract class SignInViewModelBase with Store{
 
   @action
   Future<void> submit(BuildContext context) async{
+    context.go("/");
     if (formKey.currentState!.validate()) {
 
       final email = emailEditingController.text;
       final password = passwordEditingController.text;
 
       try{
-        await SessionService.login(user: email, password: password);
+        await ClientRepositoryService.login(user: email, password: password);
         context.go("/");
 
       } on RepositoryException catch(e) {
