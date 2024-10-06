@@ -24,7 +24,6 @@ class FoodRepositoryService{
       List json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((food){
         if ((food['image'] as String).isEmpty) food['image'] = [];
-        print(json);
         return Food.fromJson(food);
       }).toList();
 
