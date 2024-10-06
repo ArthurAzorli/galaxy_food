@@ -145,16 +145,16 @@ class _FoodItemState extends State<FoodItem>{
     final theme = Theme.of(context);
 
     return SizedBox(
-      height: 230,
-      width: 290,
+      height: 250,
+      width: 325,
       child: Stack(
         children: [
 
           Positioned(
             top: 80,
             child: Container(
-              height: 150,
-              width: 280,
+              height: 170,
+              width: 315,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.elliptical(800, 300),
@@ -178,14 +178,14 @@ class _FoodItemState extends State<FoodItem>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              width: 150,
+                              width: 200,
                               child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Text(widget.packageItem.name, style: theme.textTheme.titleMedium,)
                               )
                           ),
 
-                          Text(UtilBrasilFields.obterReal(widget.packageItem.price), style: theme.textTheme.titleSmall,)
+                          Text(UtilBrasilFields.obterReal(widget.packageItem.price), style: theme.textTheme.titleMedium,)
                         ],
                       ),
 
@@ -195,8 +195,8 @@ class _FoodItemState extends State<FoodItem>{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                                width: 150,
-                                height: 55,
+                                width: 200,
+                                height: 72,
                                 child: SingleChildScrollView(
                                   child: Text(
                                     widget.packageItem is Food
@@ -225,12 +225,12 @@ class _FoodItemState extends State<FoodItem>{
           ),
 
           Positioned(
-            left: 75,
+            left: 90,
             child: Container(
-              height: 130,
+              height: 125,
               width: 130,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
                       image: Image.network("https://static.vecteezy.com/system/resources/thumbnails/021/952/563/small_2x/tasty-hamburger-on-transparent-background-png.png").image,
                       fit: BoxFit.fill

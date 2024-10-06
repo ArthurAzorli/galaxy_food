@@ -94,6 +94,7 @@ abstract class HomeViewModelBase with Store{
                           fixedSize: WidgetStatePropertyAll(Size(200, 50))
                       ),
                       onPressed: () {
+                        Navigator.of(context).pop();
                         exit(1);
                       },
                       child: const Text("FECHAR")

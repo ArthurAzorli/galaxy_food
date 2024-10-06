@@ -10,7 +10,9 @@ RepositoryException _$RepositoryExceptionFromJson(Map<String, dynamic> json) =>
     RepositoryException(
       status: (json['status'] as num).toInt(),
       message: json['message'] as String,
-      timestamp: DateTime.parse(json['timestamp'] as String),
+      timestamp: json['timestamp'] == null
+          ? null
+          : DateTime.parse(json['timestamp'] as String),
     );
 
 Map<String, dynamic> _$RepositoryExceptionToJson(

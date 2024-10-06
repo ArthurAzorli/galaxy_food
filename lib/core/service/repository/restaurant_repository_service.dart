@@ -69,7 +69,7 @@ class RestaurantRepositoryService{
 
     if (response.statusCode == 200){
 
-      List<Map<String, dynamic>> json = jsonDecode(response.bodyBytes.toUTF8);
+      List json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((restaurant){
         return Restaurant.fromJson(restaurant);
       }).toList();

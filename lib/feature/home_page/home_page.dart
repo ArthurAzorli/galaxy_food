@@ -229,7 +229,7 @@ class HomePageState extends State<HomePage>{
                     )
                   ],
                 )
-            ),
+              ),
             ),
 
             Padding(
@@ -340,7 +340,7 @@ class HomePageState extends State<HomePage>{
                                      ]
                                  ),
                                  child: Container(
-                                     height: 305,
+                                     height: 325,
                                      width: double.maxFinite,
                                      decoration: BoxDecoration(
                                          borderRadius: BorderRadius.circular(7.5),
@@ -367,13 +367,11 @@ class HomePageState extends State<HomePage>{
                                              ),
 
                                              SizedBox(
-                                               height: 250,
+                                               height: 270,
                                                width: double.infinity,
                                                child: FutureBuilder(
                                                    future: foods,
                                                    builder: (context, snapshot) {
-                                                     print(snapshot.connectionState);
-                                                     print(snapshot.data);
                                                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) return Container();
 
                                                      return ListView.builder(
