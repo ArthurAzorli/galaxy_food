@@ -15,7 +15,7 @@ setup(){
   getIt.registerSingletonAsync<SharedPreferencesWithCache>(
       () => SharedPreferencesWithCache.create(
           cacheOptions: const SharedPreferencesWithCacheOptions(
-              allowList: {"idUser"}
+              allowList: {"user"}
           )
       )
   );

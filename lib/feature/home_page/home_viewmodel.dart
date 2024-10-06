@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:galaxy_food/core/domain/address.dart';
 import 'package:galaxy_food/core/domain/client.dart';
 import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
-import 'package:galaxy_food/core/service/repository/combo_repository_service.dart';
 import 'package:galaxy_food/core/service/repository/food_repository_service.dart';
 import 'package:galaxy_food/core/service/repository/restaurant_repository_service.dart';
 import 'package:galaxy_food/feature/main_page/main_viewmodel.dart';
@@ -12,8 +11,6 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/domain/combo.dart';
-import '../../core/domain/food.dart';
 import '../../core/domain/package_item.dart';
 import '../../core/domain/restaurant.dart';
 import '../../core/utils/exception/repository_exception.dart';

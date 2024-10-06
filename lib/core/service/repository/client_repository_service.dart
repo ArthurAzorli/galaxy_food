@@ -33,7 +33,6 @@ class ClientRepositoryService {
     if (response.statusCode == 200){
       final jsonResponse = jsonDecode(response.bodyBytes.toUTF8);
       final prefs = await GetIt.I.getAsync<SharedPreferencesWithCache>();
-
       prefs.setString("user", jsonResponse["data"]);
       return jsonResponse["result"];
     } else {
@@ -87,11 +86,11 @@ class ClientRepositoryService {
     final response = await http.get(
       endpointUri,
       headers: {
-        'Content-Type':'application/json; charset=UTF-8'
+        'Content-Type':'application/json; charset=UTF-8',
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Client.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));

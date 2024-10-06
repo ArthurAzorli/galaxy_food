@@ -20,7 +20,7 @@ class PackageRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
 
       List<Map<String, dynamic>> json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((package){
@@ -42,7 +42,7 @@ class PackageRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Package.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
@@ -59,7 +59,7 @@ class PackageRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Package.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));

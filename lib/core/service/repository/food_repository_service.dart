@@ -20,10 +20,11 @@ class FoodRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
-
+    if (response.statusCode == 200){
       List json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((food){
+        if ((food['image'] as String).isEmpty) food['image'] = [];
+        print(json);
         return Food.fromJson(food);
       }).toList();
 
@@ -42,7 +43,7 @@ class FoodRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Food.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));

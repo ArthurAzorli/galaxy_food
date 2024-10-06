@@ -40,7 +40,7 @@ class BuyRepositoryService {
         },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
 
       List<Map<String, dynamic>> buysJson = jsonDecode(response.bodyBytes.toUTF8);
       return buysJson.map((buy){
@@ -63,7 +63,7 @@ class BuyRepositoryService {
         },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Buy.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
@@ -81,7 +81,7 @@ class BuyRepositoryService {
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Buy.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));

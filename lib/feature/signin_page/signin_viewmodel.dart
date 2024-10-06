@@ -49,7 +49,6 @@ abstract class SignInViewModelBase with Store{
 
   @action
   Future<void> submit(BuildContext context) async{
-    context.go("/");
     if (formKey.currentState!.validate()) {
 
       final email = emailEditingController.text;

@@ -139,8 +139,6 @@ class HomePageState extends State<HomePage>{
                               ? viewModel.client!.name
                               : "Usuário";
 
-                          print(viewModel.client);
-
                           return SizedBox(
                             width: double.maxFinite,
                             child: Text("Olá, $name", style: theme.textTheme.headlineSmall,  textAlign: TextAlign.start,)
@@ -325,7 +323,7 @@ class HomePageState extends State<HomePage>{
                        child: Column(
                          children: List.generate(
                              viewModel.restaurants.length,
-                                 (index){
+                             (index){
                                final restaurant = viewModel.restaurants[index];
                                final foods = viewModel.getFoodItemOf(context, restaurant);
 
@@ -346,12 +344,12 @@ class HomePageState extends State<HomePage>{
                                      width: double.maxFinite,
                                      decoration: BoxDecoration(
                                          borderRadius: BorderRadius.circular(7.5),
-                                         color: theme.colorScheme.primaryContainer,
-                                         image: DecorationImage(
-                                             image: Image.network("https://nabarradatijuca.com.br/wp-content/uploads/2023/07/Hamburgueria_Barra_da_Tijuca.jpg").image,
+                                         color: theme.colorScheme.tertiaryContainer,
+                                         image: restaurant.image != null? DecorationImage(
+                                             image: Image.memory(restaurant.image!.toUint8List).image,
                                              fit: BoxFit.cover,
                                              opacity: 0.5
-                                         )
+                                         ): null
                                      ),
                                      child: ClipRRect(
                                        borderRadius: BorderRadius.circular(7.5),
@@ -374,7 +372,8 @@ class HomePageState extends State<HomePage>{
                                                child: FutureBuilder(
                                                    future: foods,
                                                    builder: (context, snapshot) {
-
+                                                     print(snapshot.connectionState);
+                                                     print(snapshot.data);
                                                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) return Container();
 
                                                      return ListView.builder(

@@ -21,9 +21,8 @@ class RestaurantRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
-
-      List<Map<String, dynamic>> json = jsonDecode(response.bodyBytes.toUTF8);
+    if (response.statusCode == 200){
+      List json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((restaurant){
         return Restaurant.fromJson(restaurant);
       }).toList();
@@ -47,7 +46,7 @@ class RestaurantRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
       return Restaurant.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
@@ -68,7 +67,7 @@ class RestaurantRepositoryService{
       },
     );
 
-    if (response.statusCode == 302){
+    if (response.statusCode == 200){
 
       List<Map<String, dynamic>> json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((restaurant){
