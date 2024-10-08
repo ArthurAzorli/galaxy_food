@@ -28,6 +28,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(json)
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -68,6 +73,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(client.toJson())
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 201){
@@ -88,6 +98,11 @@ class ClientRepositoryService {
       headers: {
         'Content-Type':'application/json; charset=UTF-8',
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -106,6 +121,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(client.toJson())
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 202){
@@ -130,6 +150,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(json)
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 202){
@@ -149,6 +174,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(phone.toJson())
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 201){
@@ -168,6 +198,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(address.toJson())
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 201){
@@ -186,6 +221,11 @@ class ClientRepositoryService {
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -204,6 +244,11 @@ class ClientRepositoryService {
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -227,6 +272,11 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(json)
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){

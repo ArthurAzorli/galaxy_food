@@ -19,6 +19,11 @@ class RestaurantRepositoryService{
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -44,6 +49,11 @@ class RestaurantRepositoryService{
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
@@ -65,6 +75,11 @@ class RestaurantRepositoryService{
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){

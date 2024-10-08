@@ -20,6 +20,11 @@ class BuyRepositoryService {
         'Content-Type':'application/json; charset=UTF-8'
       },
       body: jsonEncode(buy.toJson())
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 201){
@@ -38,6 +43,11 @@ class BuyRepositoryService {
         headers: {
           'Content-Type':'application/json; charset=UTF-8'
         },
+    ).timeout(
+      const Duration(seconds: 5),
+      onTimeout: (){
+        throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+      }
     );
 
     if (response.statusCode == 200){
@@ -79,6 +89,11 @@ class BuyRepositoryService {
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
     );
 
     if (response.statusCode == 200){
