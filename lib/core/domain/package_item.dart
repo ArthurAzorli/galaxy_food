@@ -11,6 +11,7 @@ abstract class PackageItem{
   late final String id;
   late final String name;
   late final double price;
+  @JsonKey(fromJson: imageFromJson)
   late final List<int> image;
   late final String parent;
 
@@ -40,5 +41,12 @@ abstract class PackageItem{
 
   @override
   int get hashCode => id.hashCode;
+
+  static List<int> imageFromJson(json){
+    if (json.toString().isNotEmpty){
+      return (json as List<dynamic>).map((e) => (e as num).toInt()).toList();
+    }
+    return <int>[];
+  }
 
 }

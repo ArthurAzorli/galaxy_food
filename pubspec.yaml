@@ -53,7 +53,9 @@ dependencies:
   rate: ^0.0.2
 
   get_it: ^7.7.0
+
   shared_preferences: ^2.3.2
+
   lottie: ^3.1.2
 
 dev_dependencies:
@@ -88,6 +90,7 @@ flutter:
     - lib/images/galaxyfood_logo.png
     - lib/images/user_default.png
     - lib/animations/SearchAnimationLottie.json
+    - lib/animations/OrderAnimationLottie.json
 
   fonts:
     - family: Montserrat

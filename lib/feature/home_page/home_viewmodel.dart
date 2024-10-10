@@ -14,7 +14,6 @@ import 'package:mobx/mobx.dart';
 import '../../core/domain/package_item.dart';
 import '../../core/domain/restaurant.dart';
 import '../../core/utils/exception/repository_exception.dart';
-import '../../core/widgets/galaxy_button.dart';
 
 part 'home_viewmodel.g.dart';
 
@@ -38,72 +37,20 @@ abstract class HomeViewModelBase with Store{
       client = await ClientRepositoryService.getUser();
 
     } on RepositoryException catch(e) {
-      showDialog(
-          context: context,
-          builder: (context)
-          {
-            final theme = Theme.of(context);
-            return AlertDialog(
-
-              icon: Icon(
-                  Icons.warning_amber_rounded, color: theme.colorScheme.secondary,
-                  size: 65),
-              title: Text("Erro ${e.status}!", style: theme.textTheme.titleLarge),
-              content: Text(e.message, style: theme.textTheme.bodyLarge,
-                textAlign: TextAlign.center,),
-              actions: [
-                Center(
-                  child: GalaxyButton(
-                      style: const ButtonStyle(
-                          fixedSize: WidgetStatePropertyAll(Size(200, 50))
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        context.go("/signin");
-                      },
-                      child: const Text("FECHAR")
-                  ),
-                )
-              ],
-            );
-          }
-      );
+      e.showMessageDialog(context, (){
+        Navigator.of(context).pop();
+        context.go("/signin");
+      });
     }
   }
   void _getRestaurants(BuildContext context) async{
     try {
       restaurants = await RestaurantRepositoryService.getAll();
     } on RepositoryException catch(e) {
-      showDialog(
-          context: context,
-          builder: (context)
-          {
-            final theme = Theme.of(context);
-            return AlertDialog(
-
-              icon: Icon(
-                  Icons.warning_amber_rounded, color: theme.colorScheme.secondary,
-                  size: 65),
-              title: Text("Erro ${e.status}!", style: theme.textTheme.titleLarge),
-              content: Text(e.message, style: theme.textTheme.bodyLarge,
-                textAlign: TextAlign.center,),
-              actions: [
-                Center(
-                  child: GalaxyButton(
-                      style: const ButtonStyle(
-                          fixedSize: WidgetStatePropertyAll(Size(200, 50))
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        exit(1);
-                      },
-                      child: const Text("FECHAR")
-                  ),
-                )
-              ],
-            );
-          }
-      );
+      e.showMessageDialog(context, (){
+        Navigator.of(context).pop();
+        exit(1);
+      });
     }
   }
 
@@ -123,35 +70,10 @@ abstract class HomeViewModelBase with Store{
     try{
       return await FoodRepositoryService.getOf(restaurant.id);
     } on RepositoryException catch(e) {
-      showDialog(
-          context: context,
-          builder: (context)
-          {
-            final theme = Theme.of(context);
-            return AlertDialog(
-
-              icon: Icon(
-                  Icons.warning_amber_rounded, color: theme.colorScheme.secondary,
-                  size: 65),
-              title: Text("Erro ${e.status}!", style: theme.textTheme.titleLarge),
-              content: Text(e.message, style: theme.textTheme.bodyLarge,
-                textAlign: TextAlign.center,),
-              actions: [
-                Center(
-                  child: GalaxyButton(
-                      style: const ButtonStyle(
-                          fixedSize: WidgetStatePropertyAll(Size(200, 50))
-                      ),
-                      onPressed: () {
-                        exit(1);
-                      },
-                      child: const Text("FECHAR")
-                  ),
-                )
-              ],
-            );
-          }
-      );
+      e.showMessageDialog(context, () {
+        Navigator.pop(context);
+        exit(1);
+      });
     }
     return null;
   }

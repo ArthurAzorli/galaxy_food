@@ -15,9 +15,7 @@ Combo _$ComboFromJson(Map<String, dynamic> json) => Combo(
               ?.map((e) => ComboItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-    )..image = (json['image'] as List<dynamic>)
-        .map((e) => (e as num).toInt())
-        .toList();
+    )..image = PackageItem.imageFromJson(json['image']);
 
 Map<String, dynamic> _$ComboToJson(Combo instance) => <String, dynamic>{
       'id': instance.id,

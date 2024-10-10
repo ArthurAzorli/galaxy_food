@@ -6,7 +6,7 @@ part 'food.g.dart';
 @JsonSerializable()
 class Food extends PackageItem{
 
-  String description;
+  String? description;
 
   Food({
     required super.id,

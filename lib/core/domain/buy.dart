@@ -12,7 +12,9 @@ part 'buy.g.dart';
 class Buy{
 
   late String? id;
+  @JsonKey(fromJson: _paymentFormFromJson)
   late final PaymentForm paymentForm;
+  @JsonKey(fromJson: _orderStatusFromJson)
   late OrderStatus orderStatus;
   late final DateTime date;
   late double deliveryFee;
@@ -20,6 +22,7 @@ class Buy{
   late final Address sentAddress;
   late final Client client;
   late final Restaurant restaurant;
+  final List<BuyItem> items;
 
   Buy({
     required this.id,
@@ -30,7 +33,8 @@ class Buy{
     this.discount = 0,
     required this.sentAddress,
     required this.client,
-    required this.restaurant
+    required this.restaurant,
+    this.items = const [],
   });
 
   factory Buy.fromJson(Map<String, dynamic> json) => _$BuyFromJson(json);
@@ -46,6 +50,9 @@ class Buy{
   @override
   int get hashCode => id.hashCode;
 
+  static _paymentFormFromJson(json) => PaymentForm.getFromCode(json);
+  static _orderStatusFromJson(json) => OrderStatus.getFromCode(json);
+
 }
 
 @JsonSerializable()
@@ -57,10 +64,10 @@ class BuyItem{
 
   BuyItem({
     this.id,
-    required Buy buy,
+    required this.buy,
     required this.item,
     required this.quantity
-  }): buy = buy.id!;
+  });
 
   factory BuyItem.fromJson(Map<String, dynamic> json) => _$BuyItemFromJson(json);
 

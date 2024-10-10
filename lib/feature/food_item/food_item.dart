@@ -88,7 +88,7 @@ class _FoodItemState extends State<FoodItem>{
                       child: SingleChildScrollView(
                         child: Text(
                          widget.packageItem is Food
-                         ? (widget.packageItem as Food).description
+                         ? (widget.packageItem as Food).description??""
                          : (widget.packageItem as Combo).items.ListToString
                         )
                       ),
@@ -200,7 +200,7 @@ class _FoodItemState extends State<FoodItem>{
                                 child: SingleChildScrollView(
                                   child: Text(
                                     widget.packageItem is Food
-                                        ? (widget.packageItem as Food).description
+                                        ? (widget.packageItem as Food).description??""
                                         : (widget.packageItem as Combo).items.ListToString,
                                     style: theme.textTheme.labelSmall,
                                   ),

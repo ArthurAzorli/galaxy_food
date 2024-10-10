@@ -10,11 +10,10 @@ Food _$FoodFromJson(Map<String, dynamic> json) => Food(
       id: json['id'] as String,
       name: json['name'] as String,
       price: (json['price'] as num).toDouble(),
-      description: json['description'] as String,
-      image: (json['image'] as List<dynamic>?)
-              ?.map((e) => (e as num).toInt())
-              .toList() ??
-          const [],
+      description: json['description'] as String?,
+      image: json['image'] == null
+          ? const []
+          : PackageItem.imageFromJson(json['image']),
       parent: json['parent'] as String,
     );
 

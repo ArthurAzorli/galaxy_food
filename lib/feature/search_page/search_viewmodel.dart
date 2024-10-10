@@ -36,35 +36,7 @@ abstract class SearchViewModelBase with Store {
             restaurants = await RestaurantRepositoryService.search(text);
             beforeSearch = true;
         } on RepositoryException catch(e) {
-            showDialog(
-                context: context,
-                builder: (context)
-                {
-                    final theme = Theme.of(context);
-                    return AlertDialog(
-
-                        icon: Icon(
-                            Icons.warning_amber_rounded, color: theme.colorScheme.secondary,
-                            size: 65),
-                        title: Text("Erro ${e.status}!", style: theme.textTheme.titleLarge),
-                        content: Text(e.message, style: theme.textTheme.bodyLarge,
-                            textAlign: TextAlign.center,),
-                        actions: [
-                            Center(
-                                child: GalaxyButton(
-                                    style: const ButtonStyle(
-                                        fixedSize: WidgetStatePropertyAll(Size(200, 50))
-                                    ),
-                                    onPressed: () {
-                                        Navigator.of(context).pop();
-                                    },
-                                    child: const Text("FECHAR")
-                                ),
-                            )
-                        ],
-                    );
-                }
-            );
+            e.showMessageDialog(context, () => Navigator.of(context).pop());
         }
     }
 
@@ -73,35 +45,10 @@ abstract class SearchViewModelBase with Store {
         try{
             return await FoodRepositoryService.getOf(restaurant.id);
         } on RepositoryException catch(e) {
-            showDialog(
-                context: context,
-                builder: (context)
-                {
-                    final theme = Theme.of(context);
-                    return AlertDialog(
-
-                        icon: Icon(
-                            Icons.warning_amber_rounded, color: theme.colorScheme.secondary,
-                            size: 65),
-                        title: Text("Erro ${e.status}!", style: theme.textTheme.titleLarge),
-                        content: Text(e.message, style: theme.textTheme.bodyLarge,
-                            textAlign: TextAlign.center,),
-                        actions: [
-                            Center(
-                                child: GalaxyButton(
-                                    style: const ButtonStyle(
-                                        fixedSize: WidgetStatePropertyAll(Size(200, 50))
-                                    ),
-                                    onPressed: () {
-                                        exit(1);
-                                    },
-                                    child: const Text("FECHAR")
-                                ),
-                            )
-                        ],
-                    );
-                }
-            );
+            e.showMessageDialog(context, (){
+                Navigator.of(context).pop();
+                exit(1);
+            });
         }
         return null;
     }

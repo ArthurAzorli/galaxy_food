@@ -1,6 +1,13 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galaxy_food/core/domain/order_status.dart';
 import 'package:galaxy_food/core/widgets/galaxy_button.dart';
+import 'package:galaxy_food/feature/order_page/order_viewmodel.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../core/domain/buy.dart';
 
 class OrderPage extends StatefulWidget{
   const OrderPage({super.key});
@@ -11,6 +18,15 @@ class OrderPage extends StatefulWidget{
 }
 
 class OrderPageState extends State<OrderPage>{
+
+  late final viewModel = OrderViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.update(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -19,9 +35,9 @@ class OrderPageState extends State<OrderPage>{
       height: MediaQuery.of(context).size.height-400,
       color: theme.colorScheme.primary,
       backgroundColor: theme.colorScheme.secondary,
-      borderWidth: 10,
+      borderWidth: 100,
       onRefresh: () async{
-        await Future.delayed(const Duration(seconds: 5));
+        await viewModel.update(context);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -41,49 +57,62 @@ class OrderPageState extends State<OrderPage>{
           shadowColor: const Color(0xff000000),
           elevation: 20,
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40, bottom: 60),
-            child: Column(
-              children: [
+        body: Padding(
+          padding: const EdgeInsets.only(top: 40, bottom: 60),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height-80,
+            child: Observer(
+              builder: (context) {
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                if (viewModel.listIsEmpty){
+                  return Stack(
+                    children: [
+                      Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
+                            child: Lottie.asset(
+                                "lib/animations/OrderAnimationLottie.json",
+                                fit: BoxFit.fill,
+                                alignment: Alignment.topCenter
+                            ),
+                          )
+                      ),
+
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 420, right: 15, left: 15),
+                          child: Text("FAÇA SEU PRIMEIRO PEDIDO!",
+                            style: theme.textTheme.headlineSmall!.merge(
+                                TextStyle(
+                                  color: theme.colorScheme.inverseSurface,
+                                )
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return SingleChildScrollView(
                   child: SizedBox(
-                    width: double.maxFinite,
-                    child: Text("Pedidos Recentes", style: theme.textTheme.titleLarge, textAlign: TextAlign.left,)
+                    height: viewModel.newOrders.length*220+viewModel.oldOrders.length*220+80,
+                    child: Column(
+                      children: [
+                  
+                        if (viewModel.newOrders.isNotEmpty) ..._NewOrdersWidgets(context),
+                        if (viewModel.oldOrders.isNotEmpty) ..._OldOrdersWidgets(context),
+                  
+                      ],
+                    ),
                   ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 2.5, bottom: 20),
-                  child: Divider(color: theme.dividerColor,),
-                ),
-
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: OrderItem(withStatus: true,)
-                ),
+                );
 
 
-                Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-                  child: SizedBox(
-                      width: double.maxFinite,
-                      child: Text("Pedidos Recentes", style: theme.textTheme.titleLarge, textAlign: TextAlign.left,)
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 2.5, bottom: 20),
-                  child: Divider(color: theme.dividerColor,),
-                ),
-
-                const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: OrderItem(withStatus: false,)
-                ),
-              ],
+              }
             ),
           ),
         ),
@@ -91,23 +120,86 @@ class OrderPageState extends State<OrderPage>{
     );
   }
 
-}
+  List<Widget> _NewOrdersWidgets(BuildContext context){
+    final theme = Theme.of(context);
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SizedBox(
+            width: double.maxFinite,
+            child: Text("Pedidos Recentes", style: theme.textTheme.titleLarge, textAlign: TextAlign.left,)
+        ),
+      ),
 
-enum OrderStatus{
-  canceled(Colors.red),
-  waiting(Colors.orange),
-  making(Colors.amber),
-  made(Colors.blue),
-  delivered(Colors.green);
+      Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 2.5, bottom: 20),
+        child: Divider(color: theme.dividerColor,),
+      ),
 
-  final Color color;
-  const OrderStatus(this.color);
+      ...List.generate(
+          viewModel.oldOrders.length,
+              (index){
+            final buy = viewModel.oldOrders[index];
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: OrderItem(
+                    buy,
+                    onDetails: () => viewModel.seeDetails(context, buy),
+                    onSecondOption: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled
+                        ? () => viewModel.cancel(context, buy)
+                        : () => viewModel.imprimir(),
+                    withStatus: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled,
+                )
+            );
+          }
+      ),
+    ];
+  }
+
+  List<Widget> _OldOrdersWidgets(BuildContext context){
+    final theme = Theme.of(context);
+    return [
+      Padding(
+        padding: EdgeInsets.only(top: viewModel.newOrders.isNotEmpty? 50 : 0, left: 20, right: 20),
+        child: SizedBox(
+            width: double.maxFinite,
+            child: Text("Pedidos Anteriores", style: theme.textTheme.titleLarge, textAlign: TextAlign.left,)
+        ),
+      ),
+
+      Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 2.5, bottom: 20),
+        child: Divider(color: theme.dividerColor,),
+      ),
+
+      ...List.generate(
+          viewModel.oldOrders.length,
+          (index){
+            final buy = viewModel.oldOrders[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: OrderItem(
+                buy,
+                onDetails: () => viewModel.seeDetails(context, buy),
+                onSecondOption: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled
+                    ? () => viewModel.cancel(context, buy)
+                    : () => viewModel.imprimir(),
+                withStatus: buy.orderStatus != OrderStatus.delivered //&& buy.orderStatus != OrderStatus.canceled,
+              )
+            );
+          }
+      ),
+    ];
+  }
 }
 
 class OrderItem extends StatefulWidget{
+  final Buy buy;
   final bool withStatus;
+  final Function() onDetails;
+  final Function() onSecondOption;
 
-  const OrderItem({super.key, this.withStatus = false});
+  const OrderItem(this.buy, {super.key, this.withStatus = false, required this.onDetails, required this.onSecondOption});
 
   @override
   State<StatefulWidget> createState() => _OrderItemState();
@@ -115,37 +207,41 @@ class OrderItem extends StatefulWidget{
 }
 
 class _OrderItemState extends State<OrderItem>{
+
   @override
   Widget build(BuildContext context) {
 
-    if (widget.withStatus) return buildOrderWithStatus(context);
-    return buildOrderWithoutStatus(context);
-
-  }
-
-  Widget buildOrderWithStatus(BuildContext context){
     final theme = Theme.of(context);
+    final int differenceDate = widget.buy.date.difference(DateTime.now()).inHours;
+    final dynamic date = differenceDate > -24
+        ? "Hoje"
+        : differenceDate > -48
+        ? "Ontem"
+        : differenceDate > -168
+        ? _getWeekDay(widget.buy.date)
+        : UtilData.obterDataDDMMAAAA(widget.buy.date);
+
     return Container(
       width: double.maxFinite,
       height: 220,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurface,
-        borderRadius: const BorderRadius.horizontal(
-            right: Radius.circular(7.5),
-            left: Radius.circular(17.5)
-        ),
-        border: Border(left: BorderSide(
-          color: OrderStatus.waiting.color,
-          width: 10
-        )),
-        boxShadow: const [
-          BoxShadow(
-              color: Color(0xaa000000),
-              blurStyle: BlurStyle.outer,
-              blurRadius: 16
+          color: theme.colorScheme.onSurface,
+          borderRadius: const BorderRadius.horizontal(
+              right: Radius.circular(7.5),
+              left: Radius.circular(17.5)
           ),
-        ]
+          border: Border(left: BorderSide(
+              color: widget.buy.orderStatus.color,
+              width: 10
+          )),
+          boxShadow: const [
+            BoxShadow(
+                color: Color(0xaa000000),
+                blurStyle: BlurStyle.outer,
+                blurRadius: 16
+            ),
+          ]
       ),
       child: Column(
         children: [
@@ -159,9 +255,9 @@ class _OrderItemState extends State<OrderItem>{
                 children: [
                   SizedBox(
                       width: 180,
-                      child: Text("RESTAURANT NAME", style: theme.textTheme.titleSmall,)
+                      child: Text(widget.buy.restaurant.name, style: theme.textTheme.titleSmall,)
                   ),
-                  Text("R\$ 49,90", style: theme.textTheme.titleLarge,),
+                  Text(UtilBrasilFields.obterReal(_getTotalValue(widget.buy)), style: theme.textTheme.titleLarge,),
                 ],
               ),
 
@@ -171,118 +267,11 @@ class _OrderItemState extends State<OrderItem>{
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(200),
-                        color: OrderStatus.waiting.color
+                        color: widget.buy.orderStatus.color
                     ),
-                    child:  const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 16),
-                        child: Text("Em espera")
-                    ),
-                  ),
-
-
-                ],
-              )
-            ],
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text("Hoje, às 12:30", style: theme.textTheme.titleMedium,),
-                  ),
-
-                  Text("Tempo de espera: 1 hora", style: theme.textTheme.bodyMedium,),
-                ],
-              ),
-            )
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10, top: 10),
-                child: GalaxyButton(
-                  onPressed: (){},
-                  child: const Text("Detalhes"),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 10),
-                child: GalaxyButton(
-                  onPressed: (){},
-                  child: const Text("Cancelar"),
-                ),
-              )
-            ],
-          )
-
-
-        ],
-      ),
-    );
-  }
-
-  Widget buildOrderWithoutStatus(BuildContext context){
-    final theme = Theme.of(context);
-    return Container(
-      width: double.maxFinite,
-      height: 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurface,
-        borderRadius: const BorderRadius.horizontal(
-            right: Radius.circular(7.5),
-            left: Radius.circular(17.5)
-        ),
-        border: Border(left: BorderSide(
-            color: OrderStatus.delivered.color,
-            width: 10
-        )),
-        boxShadow: const [
-          BoxShadow(
-              color: Color(0xaa000000),
-              blurStyle: BlurStyle.outer,
-              blurRadius: 16
-          ),
-        ]
-      ),
-      child: Column(
-        children: [
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                      width: 180,
-                      child: Text("RESTAURANT NAME", style: theme.textTheme.titleSmall,)
-                  ),
-                  Text("R\$ 49,90", style: theme.textTheme.titleLarge,),
-                ],
-              ),
-
-              Column(
-                children: [
-
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(200),
-                        color: OrderStatus.delivered.color
-                    ),
-                    child:  const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 16),
-                        child: Text("Entregue")
+                    child:  Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 16),
+                        child: Text(widget.buy.orderStatus.toString())
                     ),
                   ),
 
@@ -296,9 +285,19 @@ class _OrderItemState extends State<OrderItem>{
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Align(
                 alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text("Ontem, às 12:30", style: theme.textTheme.titleMedium,),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        "$date, às ${UtilData.obterHoraHHMM(widget.buy.date)}",
+                        style: theme.textTheme.titleMedium,
+                      ),
+                    ),
+
+                    Text("Forma de Pagamento: ${widget.buy.paymentForm.toString()}", style: theme.textTheme.bodyMedium,),
+                  ],
                 ),
               )
           ),
@@ -309,7 +308,7 @@ class _OrderItemState extends State<OrderItem>{
               Padding(
                 padding: const EdgeInsets.only(right: 10, top: 10),
                 child: GalaxyButton(
-                  onPressed: (){},
+                  onPressed: widget.onDetails,
                   child: const Text("Detalhes"),
                 ),
               ),
@@ -317,10 +316,10 @@ class _OrderItemState extends State<OrderItem>{
               Padding(
                 padding: const EdgeInsets.only(left: 10, top: 10),
                 child: GalaxyButton(
-                  onPressed: (){},
-                  child: const Text("Imprimir"),
+                  onPressed: widget.onSecondOption,
+                  child: Text(widget.withStatus? "Cancelar" : "Imprimir"),
                 ),
-              ),
+              )
             ],
           )
 
@@ -328,6 +327,36 @@ class _OrderItemState extends State<OrderItem>{
         ],
       ),
     );
+
+  }
+
+  double _getTotalValue(Buy buy){
+    var value = 0.0;
+    for (final item in buy.items){
+      value += item.quantity*item.item.price;
+    }
+    return value;
+  }
+
+  String _getWeekDay(DateTime date){
+    switch(date.weekday){
+      case(DateTime.sunday):
+        return "Domingo";
+      case(DateTime.monday):
+        return "Segunda-Feira";
+      case(DateTime.tuesday):
+        return "Terça-Feira";
+      case(DateTime.wednesday):
+        return "Quarta-Feira";
+      case(DateTime.thursday):
+        return "Quinta-Feira";
+      case(DateTime.friday):
+        return "Sexta-Feira";
+      case(DateTime.saturday):
+        return "Sabádo";
+      default:
+        return "";
+    }
   }
 
 }

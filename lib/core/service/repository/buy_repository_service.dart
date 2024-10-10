@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
 import 'package:galaxy_food/core/service/repository/repository_service.dart';
 import 'package:galaxy_food/core/utils/bytes.dart';
@@ -43,16 +44,17 @@ class BuyRepositoryService {
         headers: {
           'Content-Type':'application/json; charset=UTF-8'
         },
-    ).timeout(
+    )/*.timeout(
       const Duration(seconds: 5),
       onTimeout: (){
         throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
       }
-    );
+    )*/;
 
     if (response.statusCode == 200){
 
-      List<Map<String, dynamic>> buysJson = jsonDecode(response.bodyBytes.toUTF8);
+      List buysJson = jsonDecode(response.bodyBytes.toUTF8);
+      debugPrint(buysJson.toString(), wrapWidth: 1000);
       return buysJson.map((buy){
         return Buy.fromJson(buy);
       }).toList();
