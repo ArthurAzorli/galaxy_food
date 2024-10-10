@@ -31,88 +31,90 @@ class OrderPageState extends State<OrderPage>{
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return LiquidPullToRefresh(
-      height: MediaQuery.of(context).size.height-400,
-      color: theme.colorScheme.primary,
-      backgroundColor: theme.colorScheme.secondary,
-      borderWidth: 100,
-      onRefresh: () async{
-        await viewModel.update(context);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 75,
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Icon(Icons.history, color: theme.colorScheme.secondary,),
-              ),
-              Text("Histórico Pedidos", style: theme.textTheme.titleLarge,),
-            ],
-          ),
-          backgroundColor: theme.colorScheme.primary,
-          shadowColor: const Color(0xff000000),
-          elevation: 20,
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 100,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Icon(Icons.history, color: theme.colorScheme.secondary,),
+            ),
+            Text("Histórico Pedidos", style: theme.textTheme.titleLarge,),
+          ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 40, bottom: 60),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height-80,
-            child: Observer(
-              builder: (context) {
+        backgroundColor: theme.colorScheme.primary,
+        shadowColor: const Color(0xff000000),
+        elevation: 20,
+      ),
+      body: LiquidPullToRefresh(
+        height: 200,
+        color: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.secondary,
+        borderWidth: 7.5,
+        showChildOpacityTransition: false,
+        onRefresh: () async{
+          viewModel.update(context);
+          await Future.delayed(const Duration(seconds: 5));
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40, bottom: 60),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height-80,
+              child: Observer(
+                builder: (context) {
 
-                if (viewModel.listIsEmpty){
-                  return Stack(
-                    children: [
-                      Align(
+                  if (viewModel.listIsEmpty){
+                    return Stack(
+                      children: [
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
+                              child: Lottie.asset(
+                                  "lib/animations/OrderAnimationLottie.json",
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.topCenter
+                              ),
+                            )
+                        ),
+
+                        Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
-                            child: Lottie.asset(
-                                "lib/animations/OrderAnimationLottie.json",
-                                fit: BoxFit.fill,
-                                alignment: Alignment.topCenter
+                            padding: const EdgeInsets.only(top: 420, right: 15, left: 15),
+                            child: Text("FAÇA SEU PRIMEIRO PEDIDO!",
+                              style: theme.textTheme.headlineSmall!.merge(
+                                  TextStyle(
+                                    color: theme.colorScheme.inverseSurface,
+                                  )
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                          )
-                      ),
-
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 420, right: 15, left: 15),
-                          child: Text("FAÇA SEU PRIMEIRO PEDIDO!",
-                            style: theme.textTheme.headlineSmall!.merge(
-                                TextStyle(
-                                  color: theme.colorScheme.inverseSurface,
-                                )
-                            ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                }
+                      ],
+                    );
+                  }
 
-                return SingleChildScrollView(
-                  child: SizedBox(
+                  return SizedBox(
                     height: viewModel.newOrders.length*220+viewModel.oldOrders.length*220+80,
                     child: Column(
                       children: [
-                  
+
                         if (viewModel.newOrders.isNotEmpty) ..._NewOrdersWidgets(context),
                         if (viewModel.oldOrders.isNotEmpty) ..._OldOrdersWidgets(context),
-                  
+
                       ],
                     ),
-                  ),
-                );
+                  );
 
 
-              }
+                }
+              ),
             ),
           ),
         ),
@@ -184,7 +186,7 @@ class OrderPageState extends State<OrderPage>{
                 onSecondOption: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled
                     ? () => viewModel.cancel(context, buy)
                     : () => viewModel.imprimir(),
-                withStatus: buy.orderStatus != OrderStatus.delivered //&& buy.orderStatus != OrderStatus.canceled,
+                withStatus: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled,
               )
             );
           }
