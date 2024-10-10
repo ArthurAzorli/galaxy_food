@@ -211,6 +211,14 @@ class _OrderItemState extends State<OrderItem>{
   @override
   Widget build(BuildContext context) {
 
+    double _getTotalValue(Buy buy){
+      var value = 0.0;
+      for (final item in buy.items){
+        value += item.quantity*item.item.price;
+      }
+      return value;
+    }
+
     final theme = Theme.of(context);
     final int differenceDate = widget.buy.date.difference(DateTime.now()).inHours;
     final dynamic date = differenceDate > -24
@@ -328,14 +336,6 @@ class _OrderItemState extends State<OrderItem>{
       ),
     );
 
-  }
-
-  double _getTotalValue(Buy buy){
-    var value = 0.0;
-    for (final item in buy.items){
-      value += item.quantity*item.item.price;
-    }
-    return value;
   }
 
   String _getWeekDay(DateTime date){

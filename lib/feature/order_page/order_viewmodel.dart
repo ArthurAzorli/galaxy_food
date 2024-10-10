@@ -74,30 +74,46 @@ abstract class OrderViewModelBase with Store {
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Restaurante: ${buy.restaurant.name}", style: theme.textTheme.titleMedium),
+                    Text(buy.restaurant.name, style: theme.textTheme.titleMedium?.merge(
+                        const TextStyle(fontSize: 20,)
+                    )),
                     Text("Endereço de Entrega: ${buy.sentAddress.toString()}", style: theme.textTheme.bodyLarge),
                 
                     Padding(
                       padding: const EdgeInsets.only( top: 15),
                       child: Text("Data: ${UtilData.obterDataDDMMAAAA(buy.date)} ás ${UtilData.obterHoraHHMM(buy.date)}", style: theme.textTheme.bodyLarge),
                     ),
-                    Text("Forma de Pagemanto: ${buy.paymentForm.toString()}", style: theme.textTheme.bodyLarge),
-                    Text("Valor Total: ${UtilBrasilFields.obterReal(buy.deliveryFee)}", style: theme.textTheme.bodyLarge),
+                    Text("Forma de Pagamento: ${buy.paymentForm.toString()}", style: theme.textTheme.bodyLarge),
+                    Text("Valor Total: ${UtilBrasilFields.obterReal(_getTotalValue(buy))}", style: theme.textTheme.bodyLarge),
                     Text("Taxa de Entrega: ${UtilBrasilFields.obterReal(buy.deliveryFee)}", style: theme.textTheme.bodyLarge),
-                    Text("Disconto Total: ${UtilBrasilFields.obterReal(buy.discount)}", style: theme.textTheme.bodyLarge),
+                    Text("Desconto Total: ${UtilBrasilFields.obterReal(buy.discount)}", style: theme.textTheme.bodyLarge),
                 
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text("Itens Comprados:", style: theme.textTheme.bodyLarge),
+                      padding: const EdgeInsets.only(top: 15, bottom: 10),
+                      child: Text("Itens Comprados:", style: theme.textTheme.titleMedium),
                     ),
-                    ListView.builder(
-                      itemCount: buy.items.length,
-                      itemBuilder: (context, index){
+
+                    ...List.generate(
+                      buy.items.length,
+                      (index){
                         final item = buy.items[index];
-                        return ListTile(
-                          trailing: Text("${item.quantity}x"),
-                          title: Text("${item.item.name} - ${UtilBrasilFields.obterReal(item.item.price*item.quantity)}"),
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 2.5),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(5),
+                            tileColor: theme.colorScheme.onSurface,
+                            leading: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text("${item.quantity}x", style: theme.textTheme.titleLarge,),
+                            ),
+                            title: Text(
+                              "${item.item.name} - ${UtilBrasilFields.obterReal(item.item.price*item.quantity)}",
+                              style: theme.textTheme.bodyLarge,
+                            ),
+
+                          ),
                         );
                       },
                     )
@@ -130,4 +146,11 @@ abstract class OrderViewModelBase with Store {
   @computed
   bool get listIsEmpty => newOrders.isEmpty && oldOrders.isEmpty;
 
+  double _getTotalValue(Buy buy){
+    var value = 0.0;
+    for (final item in buy.items){
+      value += item.quantity*item.item.price;
+    }
+    return value;
+  }
 }
