@@ -105,8 +105,8 @@ class OrderPageState extends State<OrderPage>{
                     child: Column(
                       children: [
 
-                        if (viewModel.newOrders.isNotEmpty) ..._NewOrdersWidgets(context),
-                        if (viewModel.oldOrders.isNotEmpty) ..._OldOrdersWidgets(context),
+                        if (viewModel.newOrders.isNotEmpty) ..._newOrdersWidgets(context),
+                        if (viewModel.oldOrders.isNotEmpty) ..._oldOrdersWidgets(context),
 
                       ],
                     ),
@@ -122,7 +122,7 @@ class OrderPageState extends State<OrderPage>{
     );
   }
 
-  List<Widget> _NewOrdersWidgets(BuildContext context){
+  List<Widget> _newOrdersWidgets(BuildContext context){
     final theme = Theme.of(context);
     return [
       Padding(
@@ -158,7 +158,7 @@ class OrderPageState extends State<OrderPage>{
     ];
   }
 
-  List<Widget> _OldOrdersWidgets(BuildContext context){
+  List<Widget> _oldOrdersWidgets(BuildContext context){
     final theme = Theme.of(context);
     return [
       Padding(
@@ -213,7 +213,7 @@ class _OrderItemState extends State<OrderItem>{
   @override
   Widget build(BuildContext context) {
 
-    double _getTotalValue(Buy buy){
+    double getTotalValue(Buy buy){
       var value = 0.0;
       for (final item in buy.items){
         value += item.quantity*item.item.price;
@@ -267,7 +267,7 @@ class _OrderItemState extends State<OrderItem>{
                       width: 180,
                       child: Text(widget.buy.restaurant.name, style: theme.textTheme.titleSmall,)
                   ),
-                  Text(UtilBrasilFields.obterReal(_getTotalValue(widget.buy)), style: theme.textTheme.titleLarge,),
+                  Text(UtilBrasilFields.obterReal(getTotalValue(widget.buy)), style: theme.textTheme.titleLarge,),
                 ],
               ),
 

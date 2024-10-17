@@ -10,6 +10,7 @@ import 'package:galaxy_food/feature/main_page/main_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/domain/package_item.dart';
 import '../../core/domain/restaurant.dart';
@@ -56,8 +57,14 @@ abstract class HomeViewModelBase with Store{
 
   @computed
   Address? get addressSelect{
+    String? id = GetIt.I.get<SharedPreferencesWithCache>().getString("address");
+    if (id == null) return null;
     if (client == null || client!.addresses.isEmpty) return null;
-    return client!.addresses[GetIt.I.get<MainViewModel>().addressSelect];
+    Address? addressSelect;
+    for (final address in client!.addresses){
+      if (address.id == id) addressSelect = address;
+    }
+    return addressSelect;
   }
 
   @action
@@ -80,7 +87,8 @@ abstract class HomeViewModelBase with Store{
 
   @action
   void seeRestaurant(BuildContext context,Restaurant restaurant){
-    context.go("/restaurant", extra: restaurant);
+    GetIt.I.get<SharedPreferencesWithCache>().setString("restaurant", restaurant.id);
+    context.go("/restaurant");
   }
 }
 

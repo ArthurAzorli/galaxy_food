@@ -2,12 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:galaxy_food/core/domain/package_item.dart';
 import 'package:galaxy_food/core/utils/bytes.dart';
 import 'package:galaxy_food/feature/food_item/food_item.dart';
 import 'package:galaxy_food/feature/home_page/home_viewmodel.dart';
-
-import '../../core/domain/food.dart';
 
 class HomePage extends StatefulWidget{
 

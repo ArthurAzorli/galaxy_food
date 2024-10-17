@@ -28,12 +28,12 @@ class ClientRepositoryService {
           'Content-Type':'application/json; charset=UTF-8'
         },
         body: jsonEncode(json)
-    )/*.timeout(
+    ).timeout(
         const Duration(seconds: 5),
         onTimeout: (){
           throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
         }
-    )*/;
+    );
 
     if (response.statusCode == 200){
       final jsonResponse = jsonDecode(response.bodyBytes.toUTF8);
@@ -43,11 +43,6 @@ class ClientRepositoryService {
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
-  }
-
-  static Future<void> logout() async{
-    final prefs = await GetIt.I.getAsync<SharedPreferencesWithCache>();
-    prefs.remove("user");
   }
 
   static Future<Client> getUser() async {

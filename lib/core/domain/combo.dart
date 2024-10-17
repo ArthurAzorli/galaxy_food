@@ -2,8 +2,6 @@ import 'package:galaxy_food/core/domain/food.dart';
 import 'package:galaxy_food/core/domain/package_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package.dart';
-
 part 'combo.g.dart';
 
 @JsonSerializable()

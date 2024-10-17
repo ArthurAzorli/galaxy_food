@@ -5,11 +5,11 @@ part 'phone.g.dart';
 
 @JsonSerializable()
 class Phone{
-  final String id;
+  final String? id;
   final String phone;
 
   const Phone({
-    required this.id,
+    this.id,
     required this.phone
   });
 

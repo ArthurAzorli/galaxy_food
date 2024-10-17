@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galaxy_food/core/utils/route/go_route.dart';
+import 'package:galaxy_food/feature/edit_page/edit_user_page.dart';
 import 'package:galaxy_food/feature/main_page/main_page.dart';
 import 'package:galaxy_food/feature/restaurant_page/restaurant_page.dart';
 import 'package:galaxy_food/feature/signup_page/signup_page.dart';
@@ -9,13 +10,16 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'feature/main_page/main_viewmodel.dart';
+
 setup(){
   final getIt = GetIt.I;
 
+  getIt.registerSingleton<MainViewModel>(MainViewModel());
   getIt.registerSingletonAsync<SharedPreferencesWithCache>(
       () => SharedPreferencesWithCache.create(
           cacheOptions: const SharedPreferencesWithCacheOptions(
-              allowList: {"user"}
+              allowList: {"user", "restaurant", "address"}
           )
       )
   );
@@ -51,6 +55,12 @@ GoRouter _router = GoRouter(
             path: "restaurant",
             buildChild: (BuildContext context, GoRouterState state) => const RestaurantPage(),
             restorationId: "Restaurant-Page"
+          ),
+
+          GoRouteUtils.buildHorizontalRoute(
+              path: "edit",
+              buildChild: (BuildContext context, GoRouterState state) => const EditUserPage(),
+              restorationId: "EditUser-Page"
           )
 
         ]

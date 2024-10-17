@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:galaxy_food/core/domain/client.dart';
 import 'package:galaxy_food/core/service/repository/client_repository_service.dart';
 import 'package:galaxy_food/core/utils/exception/repository_exception.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:brasil_fields/brasil_fields.dart';
-
-import '../../core/widgets/galaxy_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'signup_viewmodel.g.dart';
 
@@ -104,6 +104,7 @@ abstract class SignUpViewModelBase with Store{
 
       try{
         await ClientRepositoryService.create(clientRequest);
+        GetIt.I.get<SharedPreferencesWithCache>().remove("address");
         context.go("/");
 
       } on RepositoryException catch(e) {

@@ -138,8 +138,6 @@ class SignInPageState extends State<SignInPage>{
                       ),
                     ),
 
-
-
                     Padding(
                       padding: const EdgeInsets.only(top: 75, bottom: 10),
                       child: GalaxyButton(

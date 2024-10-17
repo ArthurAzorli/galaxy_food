@@ -18,12 +18,12 @@ class MainPage extends StatefulWidget{
 
 class MainPageState extends State<MainPage>{
 
-  late final viewModel= MainViewModel();
+  late final MainViewModel viewModel;
 
   @override
   void initState() {
     super.initState();
-    GetIt.I.registerSingleton<MainViewModel>(viewModel);
+    viewModel = GetIt.I.get<MainViewModel>();
   }
 
   @override

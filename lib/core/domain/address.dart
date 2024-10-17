@@ -15,7 +15,7 @@ class Address{
   late final String cep;
 
   Address({
-    required this.id,
+    this.id,
     required this.street,
     required this.number,
     required this.neighborhood,

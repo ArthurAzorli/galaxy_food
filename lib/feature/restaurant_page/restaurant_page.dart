@@ -2,10 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:galaxy_food/core/domain/food.dart';
-import 'package:galaxy_food/core/domain/restaurant.dart';
 import 'package:galaxy_food/core/widgets/galaxy_button.dart';
 import 'package:galaxy_food/feature/food_item/food_item.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rate/rate.dart';
 
 class RestaurantPage extends StatefulWidget{
@@ -28,7 +26,7 @@ class RestaurantPageState extends State<RestaurantPage>{
 
   @override
   Widget build(BuildContext context) {
-    final restaurant = GoRouterState.of(context).extra as Restaurant;
+
     final theme = Theme.of(context);
     var show = false;
 

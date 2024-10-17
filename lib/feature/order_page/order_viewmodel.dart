@@ -30,9 +30,6 @@ abstract class OrderViewModelBase with Store {
 
 
       for (var buy in buys){
-        print(buy.date.difference(DateTime.now()));
-        print(buy.date.difference(DateTime.now()).inHours);
-
         if (buy.date.difference(DateTime.now()).inHours<-24){
           oldOrders.add(buy);
         } else {

@@ -1,4 +1,3 @@
-import 'package:galaxy_food/core/domain/restaurant.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package_item.dart';

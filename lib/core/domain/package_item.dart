@@ -1,4 +1,3 @@
-import 'package:galaxy_food/core/domain/package.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'combo.dart';

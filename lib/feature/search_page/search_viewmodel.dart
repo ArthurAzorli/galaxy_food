@@ -9,7 +9,6 @@ import '../../core/domain/package_item.dart';
 import '../../core/domain/restaurant.dart';
 import '../../core/service/repository/food_repository_service.dart';
 import '../../core/utils/exception/repository_exception.dart';
-import '../../core/widgets/galaxy_button.dart';
 
 part 'search_viewmodel.g.dart';
 
