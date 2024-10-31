@@ -9,9 +9,6 @@ part of 'package.dart';
 Package _$PackageFromJson(Map<String, dynamic> json) => Package(
       id: json['id'] as String,
       name: json['name'] as String,
-      image: (json['image'] as List<dynamic>?)
-          ?.map((e) => (e as num).toInt())
-          .toList(),
       parent: json['parent'] as String?,
       restaurant: json['restaurant'] as String,
       children: (json['children'] as List<dynamic>?)
@@ -27,7 +24,6 @@ Package _$PackageFromJson(Map<String, dynamic> json) => Package(
 Map<String, dynamic> _$PackageToJson(Package instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'image': instance.image,
       'parent': instance.parent,
       'restaurant': instance.restaurant,
       'children': instance.children,

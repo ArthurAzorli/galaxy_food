@@ -8,7 +8,6 @@ part 'package.g.dart';
 class Package{
   late final String id;
   late final String name;
-  late final List<int>? image;
   late final String? parent;
   late final String restaurant;
   late final List<Package> children;
@@ -17,7 +16,6 @@ class Package{
   Package({
     required this.id,
     required this.name,
-    this.image,
     required this.parent,
     required this.restaurant,
     this.children = const [],
