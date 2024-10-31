@@ -15,12 +15,14 @@ class BuyRepositoryService {
     final idClient = await ClientRepositoryService.getUserID();
     final endpointUri = Uri.parse("$kApiRequest/create/$idClient");
 
+    var a = jsonEncode(buy.toJson());
+    print(a);
     final response = await http.post(
       endpointUri,
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
-      body: jsonEncode(buy.toJson())
+      body: a
     ).timeout(
         const Duration(seconds: 5),
         onTimeout: (){
@@ -54,7 +56,6 @@ class BuyRepositoryService {
     if (response.statusCode == 200){
 
       List buysJson = jsonDecode(response.bodyBytes.toUTF8);
-      debugPrint(buysJson.toString(), wrapWidth: 1000);
       return buysJson.map((buy){
         return Buy.fromJson(buy);
       }).toList();
@@ -100,6 +101,33 @@ class BuyRepositoryService {
 
     if (response.statusCode == 200){
       return Buy.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    } else {
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    }
+  }
+
+  static Future<int> getCountBuy(String id) async {
+    final endpointUri = Uri.parse("$kApiRequest/get/$id?typeUser=restaurant");
+
+    final response = await http.get(
+      endpointUri,
+      headers: {
+        'Content-Type':'application/json; charset=UTF-8'
+      },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
+    );
+
+    if (response.statusCode == 200){
+
+      List buysJson = jsonDecode(response.bodyBytes.toUTF8);
+      return buysJson.map((buy){
+        return Buy.fromJson(buy);
+      }).toList().length;
+
     } else {
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }

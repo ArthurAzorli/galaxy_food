@@ -11,7 +11,7 @@ abstract class PackageItem{
   late final String name;
   late final double price;
   @JsonKey(fromJson: imageFromJson)
-  late final List<int> image;
+  late List<int>? image;
   late final String parent;
 
   PackageItem({
@@ -19,7 +19,7 @@ abstract class PackageItem{
     required this.name,
     required this.price,
     this.image = const [],
-    required String parent
+    required this.parent
   });
 
   static PackageItem fromJson(Map<String, dynamic> json){

@@ -62,59 +62,56 @@ class OrderPageState extends State<OrderPage>{
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 40, bottom: 60),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height-80,
-              child: Observer(
-                builder: (context) {
+            child: Observer(
+              builder: (context) {
 
-                  if (viewModel.listIsEmpty){
-                    return Stack(
-                      children: [
-                        Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
-                              child: Lottie.asset(
-                                  "lib/animations/OrderAnimationLottie.json",
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.topCenter
-                              ),
-                            )
-                        ),
-
-                        Align(
+                if (viewModel.listIsEmpty){
+                  return Stack(
+                    children: [
+                      Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 420, right: 15, left: 15),
-                            child: Text("FAÇA SEU PRIMEIRO PEDIDO!",
-                              style: theme.textTheme.headlineSmall!.merge(
-                                  TextStyle(
-                                    color: theme.colorScheme.inverseSurface,
-                                  )
-                              ),
-                              textAlign: TextAlign.center,
+                            padding: const EdgeInsets.only(top: 10, right: 15, left: 15),
+                            child: Lottie.asset(
+                                "lib/animations/OrderAnimationLottie.json",
+                                fit: BoxFit.fill,
+                                alignment: Alignment.topCenter
                             ),
+                          )
+                      ),
+
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 420, right: 15, left: 15),
+                          child: Text("FAÇA SEU PRIMEIRO PEDIDO!",
+                            style: theme.textTheme.headlineSmall!.merge(
+                                TextStyle(
+                                  color: theme.colorScheme.inverseSurface,
+                                )
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ],
-                    );
-                  }
-
-                  return SizedBox(
-                    height: viewModel.newOrders.length*220+viewModel.oldOrders.length*220+80,
-                    child: Column(
-                      children: [
-
-                        if (viewModel.newOrders.isNotEmpty) ..._newOrdersWidgets(context),
-                        if (viewModel.oldOrders.isNotEmpty) ..._oldOrdersWidgets(context),
-
-                      ],
-                    ),
+                      ),
+                    ],
                   );
-
-
                 }
-              ),
+
+                return SizedBox(
+                  height: viewModel.newOrders.length*240+viewModel.oldOrders.length*240+160,
+                  child: Column(
+                    children: [
+
+                      if (viewModel.newOrders.isNotEmpty) ..._newOrdersWidgets(context),
+                      if (viewModel.oldOrders.isNotEmpty) ..._oldOrdersWidgets(context),
+
+                    ],
+                  ),
+                );
+
+
+              }
             ),
           ),
         ),
@@ -139,11 +136,11 @@ class OrderPageState extends State<OrderPage>{
       ),
 
       ...List.generate(
-          viewModel.oldOrders.length,
+          viewModel.newOrders.length,
               (index){
-            final buy = viewModel.oldOrders[index];
+            final buy = viewModel.newOrders[index];
             return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: OrderItem(
                     buy,
                     onDetails: () => viewModel.seeDetails(context, buy),
@@ -179,7 +176,7 @@ class OrderPageState extends State<OrderPage>{
           (index){
             final buy = viewModel.oldOrders[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: OrderItem(
                 buy,
                 onDetails: () => viewModel.seeDetails(context, buy),

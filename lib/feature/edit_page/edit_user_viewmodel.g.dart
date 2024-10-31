@@ -9,6 +9,22 @@ part of 'edit_user_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$EditUserViewModel on EditUserViewModelBase, Store {
+  late final _$clientAtom =
+      Atom(name: 'EditUserViewModelBase.client', context: context);
+
+  @override
+  Client? get client {
+    _$clientAtom.reportRead();
+    return super.client;
+  }
+
+  @override
+  set client(Client? value) {
+    _$clientAtom.reportWrite(value, super.client, () {
+      super.client = value;
+    });
+  }
+
   late final _$userImageAtom =
       Atom(name: 'EditUserViewModelBase.userImage', context: context);
 
@@ -22,6 +38,22 @@ mixin _$EditUserViewModel on EditUserViewModelBase, Store {
   set userImage(ImageProvider<Object>? value) {
     _$userImageAtom.reportWrite(value, super.userImage, () {
       super.userImage = value;
+    });
+  }
+
+  late final _$imageDataAtom =
+      Atom(name: 'EditUserViewModelBase.imageData', context: context);
+
+  @override
+  Uint8List? get imageData {
+    _$imageDataAtom.reportRead();
+    return super.imageData;
+  }
+
+  @override
+  set imageData(Uint8List? value) {
+    _$imageDataAtom.reportWrite(value, super.imageData, () {
+      super.imageData = value;
     });
   }
 
@@ -146,7 +178,9 @@ mixin _$EditUserViewModel on EditUserViewModelBase, Store {
   @override
   String toString() {
     return '''
+client: ${client},
 userImage: ${userImage},
+imageData: ${imageData},
 nameFocus: ${nameFocus},
 nameEditingController: ${nameEditingController},
 emailFocus: ${emailFocus},

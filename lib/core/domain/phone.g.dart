@@ -7,7 +7,7 @@ part of 'phone.dart';
 // **************************************************************************
 
 Phone _$PhoneFromJson(Map<String, dynamic> json) => Phone(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       phone: json['phone'] as String,
     );
 

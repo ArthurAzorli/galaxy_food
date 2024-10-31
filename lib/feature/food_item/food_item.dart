@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galaxy_food/core/domain/food.dart';
 import 'package:galaxy_food/core/domain/package_item.dart';
-import 'package:galaxy_food/feature/food_item/food_item_viewmodel.dart';
 
 import '../../core/domain/combo.dart';
 import '../../core/widgets/galaxy_button.dart';
@@ -18,18 +17,19 @@ class FoodItem extends StatefulWidget{
 
   final PackageItem packageItem;
   final FoodItemSize size;
+  int? value;
   Null Function()? onTap = (){};
+  Null Function()? onAdd = (){};
+  Null Function()? onRem = (){};
 
 
-  FoodItem({super.key, required this.size, required this.packageItem, this.onTap});
+  FoodItem({super.key, required this.size, required this.packageItem, this.onTap, this.onAdd, this.onRem, this.value});
 
   @override
-  State<StatefulWidget> createState() => _FoodItemState();
+  State<StatefulWidget> createState() => FoodItemState();
 }
 
-class _FoodItemState extends State<FoodItem>{
-
-  final viewModel = FoodItemViewModel();
+class FoodItemState extends State<FoodItem>{
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _FoodItemState extends State<FoodItem>{
                     padding: const WidgetStatePropertyAll(EdgeInsets.all(10)),
                     side:const WidgetStatePropertyAll(BorderSide.none)
                   ),
-                  child: const Text("COMPRAR"),
+                  child: Text("COMPRAR", style: theme.textTheme.titleMedium,),
                 ),
               )
             )
@@ -246,17 +246,15 @@ class _FoodItemState extends State<FoodItem>{
   foodItemSmallState(BuildContext context){
     final theme = Theme.of(context);
 
-    assert(widget.packageItem is Food);
-
     return Container(
       height: 120,
-      width: 265,
+      width: 310,
       margin: const EdgeInsets.only(right: 12.5),
       child: Stack(
         children: [
           Container(
             height: 115,
-            width: 250,
+            width: 295,
             margin: const EdgeInsets.only(top: 15),
             padding: const EdgeInsets.all(12.5),
             decoration: BoxDecoration(
@@ -278,21 +276,33 @@ class _FoodItemState extends State<FoodItem>{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 140,
+                      width: 160,
                       height: 32,
                       child: SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 3.5),
-                          child: Text(widget.packageItem.name, style: theme.textTheme.bodyMedium?.merge(const TextStyle(fontWeight: FontWeight.w600))),
+                          child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                widget.packageItem.name,
+                                style: theme.textTheme.bodyMedium?.merge(const TextStyle(fontWeight: FontWeight.w600))
+                              )
+                          ),
                         )
                       )
                     ),
                     SizedBox(
-                      width: 76,
+                      width: 110,
                       height: 32,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 3.5),
-                          child: Text(UtilBrasilFields.obterReal(widget.packageItem.price), style: theme.textTheme.bodyLarge?.merge(const TextStyle(fontWeight: FontWeight.w600))),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                                UtilBrasilFields.obterReal(widget.packageItem.price*widget.value!),
+                                style: theme.textTheme.bodyLarge?.merge(const TextStyle(fontWeight: FontWeight.w600))
+                            ),
+                          ),
                         )
                     )
                   ],
@@ -303,21 +313,27 @@ class _FoodItemState extends State<FoodItem>{
                   children: [
 
                     GalaxyButton(
-                        onPressed: viewModel.onAdd,
+                        onPressed: (){
+                          setState(() {
+                            widget.value = widget.value! + 1;
+                            widget.onAdd!();
+                          });
+                        },
                         style: const ButtonStyle(padding: WidgetStatePropertyAll(
                             EdgeInsets.symmetric(vertical: 10, horizontal: 30)
                         )),
                         child: const Icon(Icons.add,size: 20)
                     ),
 
-                    Observer(
-                      builder: (context) {
-                        return Text(viewModel.value.toString(), style: theme.textTheme.headlineMedium,);
-                      }
-                    ),
+                    Text(widget.value.toString(), style: theme.textTheme.headlineMedium,),
 
                     GalaxyButton(
-                        onPressed: viewModel.onRem,
+                        onPressed: (){
+                          setState(() {
+                            widget.value = widget.value! - 1;
+                            widget.onRem!();
+                          });
+                        },
                         style: const ButtonStyle(padding: WidgetStatePropertyAll(
                             EdgeInsets.symmetric(vertical: 10, horizontal: 30)
                         )),

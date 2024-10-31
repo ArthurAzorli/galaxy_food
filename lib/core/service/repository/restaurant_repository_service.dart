@@ -93,4 +93,30 @@ class RestaurantRepositoryService{
       throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     }
   }
+
+  static Future<Restaurant> score(String idRestaurant, String idClient, double score) async {
+    var url = "$kApiRequest/score/$idRestaurant/$idClient?score=$score";
+
+    final endpointUri = Uri.parse(url);
+
+    final response = await http.put(
+      endpointUri,
+      headers: {
+        'Content-Type':'application/json; charset=UTF-8'
+      },
+    ).timeout(
+        const Duration(seconds: 5),
+        onTimeout: (){
+          throw RepositoryException(status: 408, message: "Falha ao conectar com servidor!");
+        }
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 202){
+      return Restaurant.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    } else {
+      throw RepositoryException.fromJson(jsonDecode(response.bodyBytes.toUTF8));
+    }
+  }
 }

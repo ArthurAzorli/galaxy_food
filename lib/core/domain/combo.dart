@@ -43,9 +43,9 @@ class ComboItem {
   ComboItem({
     required this.id,
     required this.quantity,
-    required Combo combo,
+    required this.combo,
     required this.item
-  }) : combo = combo.id;
+  });
 
   factory ComboItem.fromJson(Map<String, dynamic> json) => _$ComboItemFromJson(json);
 

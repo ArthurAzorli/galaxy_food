@@ -50,13 +50,13 @@ dependencies:
 
   flutter_gradient_app_bar: ^0.3.1
 
-  rate: ^0.0.2
-
   get_it: ^7.7.0
 
   shared_preferences: ^2.3.2
 
   lottie: ^3.1.2
+
+  animated_rating_stars: ^1.0.1
 
 dev_dependencies:
   flutter_test:

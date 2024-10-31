@@ -29,7 +29,7 @@ Map<String, dynamic> _$ComboToJson(Combo instance) => <String, dynamic>{
 ComboItem _$ComboItemFromJson(Map<String, dynamic> json) => ComboItem(
       id: json['id'] as String,
       quantity: (json['quantity'] as num).toInt(),
-      combo: Combo.fromJson(json['combo'] as Map<String, dynamic>),
+      combo: json['combo'] as String,
       item: Food.fromJson(json['item'] as Map<String, dynamic>),
     );
 

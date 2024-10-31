@@ -355,6 +355,39 @@ mixin _$UserViewModel on UserViewModelBase, Store {
     });
   }
 
+  late final _$phoneFocusAtom =
+      Atom(name: 'UserViewModelBase.phoneFocus', context: context);
+
+  @override
+  FocusNode get phoneFocus {
+    _$phoneFocusAtom.reportRead();
+    return super.phoneFocus;
+  }
+
+  @override
+  set phoneFocus(FocusNode value) {
+    _$phoneFocusAtom.reportWrite(value, super.phoneFocus, () {
+      super.phoneFocus = value;
+    });
+  }
+
+  late final _$phoneEditingControllerAtom =
+      Atom(name: 'UserViewModelBase.phoneEditingController', context: context);
+
+  @override
+  TextEditingController get phoneEditingController {
+    _$phoneEditingControllerAtom.reportRead();
+    return super.phoneEditingController;
+  }
+
+  @override
+  set phoneEditingController(TextEditingController value) {
+    _$phoneEditingControllerAtom
+        .reportWrite(value, super.phoneEditingController, () {
+      super.phoneEditingController = value;
+    });
+  }
+
   late final _$addressSelectedAtom =
       Atom(name: 'UserViewModelBase.addressSelected', context: context);
 
@@ -378,6 +411,15 @@ mixin _$UserViewModel on UserViewModelBase, Store {
   Future<bool> removeAddress(BuildContext context, Address address) {
     return _$removeAddressAsyncAction
         .run(() => super.removeAddress(context, address));
+  }
+
+  late final _$removePhoneAsyncAction =
+      AsyncAction('UserViewModelBase.removePhone', context: context);
+
+  @override
+  Future<bool> removePhone(BuildContext context, Phone phone) {
+    return _$removePhoneAsyncAction
+        .run(() => super.removePhone(context, phone));
   }
 
   late final _$UserViewModelBaseActionController =
@@ -411,6 +453,17 @@ mixin _$UserViewModel on UserViewModelBase, Store {
         name: 'UserViewModelBase.addNewAddress');
     try {
       return super.addNewAddress(context);
+    } finally {
+      _$UserViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addNewPhone(BuildContext context) {
+    final _$actionInfo = _$UserViewModelBaseActionController.startAction(
+        name: 'UserViewModelBase.addNewPhone');
+    try {
+      return super.addNewPhone(context);
     } finally {
       _$UserViewModelBaseActionController.endAction(_$actionInfo);
     }
@@ -494,6 +547,17 @@ mixin _$UserViewModel on UserViewModelBase, Store {
   }
 
   @override
+  String? phoneValidator(String? text) {
+    final _$actionInfo = _$UserViewModelBaseActionController.startAction(
+        name: 'UserViewModelBase.phoneValidator');
+    try {
+      return super.phoneValidator(text);
+    } finally {
+      _$UserViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic editClient(BuildContext context) {
     final _$actionInfo = _$UserViewModelBaseActionController.startAction(
         name: 'UserViewModelBase.editClient');
@@ -561,6 +625,8 @@ emailFocus: ${emailFocus},
 emailEditingController: ${emailEditingController},
 passwordFocus: ${passwordFocus},
 passwordEditingController: ${passwordEditingController},
+phoneFocus: ${phoneFocus},
+phoneEditingController: ${phoneEditingController},
 addressSelected: ${addressSelected}
     ''';
   }
