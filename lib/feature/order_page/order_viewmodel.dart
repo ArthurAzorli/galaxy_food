@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/buy.dart';
+import '../../core/service/pdf_generate.dart';
 import '../../core/widgets/galaxy_button.dart';
 
 part 'order_viewmodel.g.dart';
@@ -136,8 +137,8 @@ abstract class OrderViewModelBase with Store {
   }
 
   @action
-  imprimir(){
-    print("em breve");
+  printing(Buy buy){
+    PDFGenerate(buy).build().save();
   }
 
   @computed

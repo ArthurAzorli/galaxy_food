@@ -58,6 +58,12 @@ dependencies:
 
   animated_rating_stars: ^1.0.1
 
+  on_popup_window_widget: ^0.0.13
+
+  pdf: ^3.11.1
+
+  printing: ^5.13.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -87,8 +93,11 @@ flutter:
 
 
   assets:
+    - lib/images/anuncio1.png
+    - lib/images/anuncio2.png
     - lib/images/galaxyfood_logo.png
     - lib/images/user_default.png
+    - lib/images/food_default.png
     - lib/animations/SearchAnimationLottie.json
     - lib/animations/OrderAnimationLottie.json
 

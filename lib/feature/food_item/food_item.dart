@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galaxy_food/core/domain/food.dart';
 import 'package:galaxy_food/core/domain/package_item.dart';
+import 'package:galaxy_food/core/utils/bytes.dart';
 
 import '../../core/domain/combo.dart';
 import '../../core/widgets/galaxy_button.dart';
@@ -107,10 +108,11 @@ class FoodItemState extends State<FoodItem>{
                   width: 130,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    //color: theme.colorScheme.secondary,
                     image: DecorationImage(
-                        image: Image.network("https://static.vecteezy.com/system/resources/thumbnails/021/952/563/small_2x/tasty-hamburger-on-transparent-background-png.png").image,
-                        fit: BoxFit.fill
+                        image: widget.packageItem.image != null && widget.packageItem.image!.isNotEmpty
+                            ? Image.memory(widget.packageItem.image!.toUint8List).image
+                            : Image.asset("lib/images/food_default.png").image,
+                        fit: BoxFit.cover
                     ),
                   ),
                 ),
@@ -232,8 +234,10 @@ class FoodItemState extends State<FoodItem>{
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                      image: Image.network("https://static.vecteezy.com/system/resources/thumbnails/021/952/563/small_2x/tasty-hamburger-on-transparent-background-png.png").image,
-                      fit: BoxFit.fill
+                      image: widget.packageItem.image != null && widget.packageItem.image!.isNotEmpty
+                          ? Image.memory(widget.packageItem.image!.toUint8List).image
+                          : Image.asset("lib/images/food_default.png").image,
+                      fit: BoxFit.cover
                   )
               ),
             ),

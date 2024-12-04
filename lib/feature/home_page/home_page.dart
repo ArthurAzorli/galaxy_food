@@ -69,7 +69,7 @@ class HomePageState extends State<HomePage>{
                          builder: (context){
 
                            ImageProvider image =
-                           viewModel.client != null && viewModel.client!.image != null
+                           viewModel.client != null && viewModel.client!.image != null && viewModel.client!.image!.isNotEmpty
                                ? Image.memory(viewModel.client!.image!.toUint8List).image
                                : Image.asset("lib/images/user_default.png").image;
 
@@ -252,6 +252,7 @@ class HomePageState extends State<HomePage>{
                             width: 350,
                             decoration: BoxDecoration(
                               color: theme.colorScheme.onSurface,
+                              image: DecorationImage(image: Image.asset("lib/images/anuncio${item+1}.png").image),
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: const [
                                 BoxShadow(
@@ -260,9 +261,6 @@ class HomePageState extends State<HomePage>{
                                   blurRadius: 6.5
                                 ),
                               ]
-                            ),
-                            child: const Center(
-                              child: Text("Anúncio"),
                             ),
                           ),
                         );
@@ -373,6 +371,7 @@ class HomePageState extends State<HomePage>{
                                                child: FutureBuilder(
                                                    future: foods,
                                                    builder: (context, snapshot) {
+                                                     print(snapshot.data);
                                                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) return Container();
 
                                                      return ListView.builder(

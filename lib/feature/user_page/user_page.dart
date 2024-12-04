@@ -77,7 +77,7 @@ class _UserPageState extends State<UserPage>{
                           builder: (context) {
 
                             ImageProvider image =
-                            viewModel.client != null && viewModel.client!.image != null
+                            viewModel.client != null && viewModel.client!.image != null && viewModel.client!.image!.isNotEmpty
                                 ? Image.memory(viewModel.client!.image!.toUint8List).image
                                 : Image.asset("lib/images/user_default.png").image;
 

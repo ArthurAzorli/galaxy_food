@@ -317,10 +317,11 @@ abstract class UserViewModelBase with Store {
                                 neighborhoodEditingController.text = "";
                                 cityEditingController.text = "";
                                 cepEditingController.text = "";
-                                selectState = "";
 
                                 client = await ClientRepositoryService.addAddress(address);
                                 Navigator.pop(context);
+
+                                selectState = "";
 
                               } on RepositoryException catch(e){
                                 e.showMessageDialog(context, () => Navigator.pop(context));

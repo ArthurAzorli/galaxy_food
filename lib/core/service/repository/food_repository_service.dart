@@ -28,7 +28,7 @@ class FoodRepositoryService{
     if (response.statusCode == 200){
       List json = jsonDecode(response.bodyBytes.toUTF8);
       return json.map((food){
-        if ((food['image'] as String).isEmpty) food['image'] = [];
+        if ((food['image'] as List).isEmpty) food['image'] = [];
         return Food.fromJson(food);
       }).toList();
 

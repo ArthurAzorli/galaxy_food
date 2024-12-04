@@ -146,7 +146,7 @@ class OrderPageState extends State<OrderPage>{
                     onDetails: () => viewModel.seeDetails(context, buy),
                     onSecondOption: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled
                         ? () => viewModel.cancel(context, buy)
-                        : () => viewModel.imprimir(),
+                        : () => viewModel.printing(buy),
                     withStatus: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled,
                 )
             );
@@ -182,7 +182,7 @@ class OrderPageState extends State<OrderPage>{
                 onDetails: () => viewModel.seeDetails(context, buy),
                 onSecondOption: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled
                     ? () => viewModel.cancel(context, buy)
-                    : () => viewModel.imprimir(),
+                    : () => viewModel.printing(buy),
                 withStatus: buy.orderStatus != OrderStatus.delivered && buy.orderStatus != OrderStatus.canceled,
               )
             );

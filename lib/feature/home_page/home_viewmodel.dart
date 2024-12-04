@@ -81,8 +81,8 @@ abstract class HomeViewModelBase with Store{
         Navigator.pop(context);
         exit(1);
       });
+      return null;
     }
-    return null;
   }
 
   @action

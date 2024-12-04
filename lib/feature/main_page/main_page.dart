@@ -42,7 +42,7 @@ class MainPageState extends State<MainPage>{
               backgroundColor: Colors.transparent,
               buttonBackgroundColor: theme.colorScheme.primary,
               color: theme.colorScheme.primaryContainer,
-              animationDuration: kThemeAnimationDuration,
+              animationDuration: const Duration(milliseconds: 500),
               items: const [
                 Icon(Icons.home, size: 30),
                 Icon(Icons.search_rounded, size: 30),
