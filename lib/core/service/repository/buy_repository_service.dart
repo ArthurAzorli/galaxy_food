@@ -15,14 +15,12 @@ class BuyRepositoryService {
     final idClient = await ClientRepositoryService.getUserID();
     final endpointUri = Uri.parse("$kApiRequest/create/$idClient");
 
-    var a = jsonEncode(buy.toJson());
-    print(a);
     final response = await http.post(
       endpointUri,
       headers: {
         'Content-Type':'application/json; charset=UTF-8'
       },
-      body: a
+      body: jsonEncode(buy.toJson())
     ).timeout(
         const Duration(seconds: 5),
         onTimeout: (){

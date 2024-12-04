@@ -111,8 +111,6 @@ class RestaurantRepositoryService{
         }
     );
 
-    print(response.body);
-
     if (response.statusCode == 202){
       return Restaurant.fromJson(jsonDecode(response.bodyBytes.toUTF8));
     } else {

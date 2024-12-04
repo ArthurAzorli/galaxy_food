@@ -371,7 +371,6 @@ class HomePageState extends State<HomePage>{
                                                child: FutureBuilder(
                                                    future: foods,
                                                    builder: (context, snapshot) {
-                                                     print(snapshot.data);
                                                      if (snapshot.connectionState == ConnectionState.waiting || snapshot.data == null) return Container();
 
                                                      return ListView.builder(

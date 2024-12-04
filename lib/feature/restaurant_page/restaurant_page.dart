@@ -160,7 +160,6 @@ class RestaurantPageState extends State<RestaurantPage>{
 
                                 Observer(
                                   builder: (context) {
-                                    print(viewModel.score);
                                     return Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
